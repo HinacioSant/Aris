@@ -1,0 +1,14 @@
+﻿<Window x:Class="Aris.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wf="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:local="clr-namespace:Aris"
+        mc:Ignorable="d"
+        Title="Aris" MinWidth="800" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ContentControl x:Name="Page_content"/>       
+    </Grid>
+</Window>
