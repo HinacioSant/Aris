@@ -19,7 +19,7 @@ namespace Aris.Pages
     public partial class Viewer
     {
         private PdfiumViewer.PdfViewer _pdfViewer;
-        private readonly string _current_path;
+        private string _current_path;
         private int _page_number = 1;       
 
 
@@ -48,6 +48,8 @@ namespace Aris.Pages
             try
             {                
                 
+                WordCanvas.Children.Clear();
+
                 _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);               
 
 
@@ -173,12 +175,14 @@ namespace Aris.Pages
             var result = Sw.MessageBox.Show($"Apply {changes.Count} changes", "Confirm", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
-                foreach (var box in changes)
-                {
-                    var pos = box.Tag as Word_data;
-                    PdfHandler.Replacer(_current_path, output_path, _page_number, box.Text, pos);
-                }
+                
+                PdfHandler.Replacer(_current_path, output_path, _page_number, changes);
+                
+                _current_path = output_path;
+                Load_Pdf(_current_path, _page_number);
                 Refresh_Cl();
+
+                
             }       
             
         }

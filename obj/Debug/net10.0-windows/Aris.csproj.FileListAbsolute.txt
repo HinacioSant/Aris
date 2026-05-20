@@ -58,3 +58,4 @@ c:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\refint\Aris.dll
 c:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\Aris.pdb
 C:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\Aris.genruntimeconfig.cache
 C:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\ref\Aris.dll
+c:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\Aris.sourcelink.json
