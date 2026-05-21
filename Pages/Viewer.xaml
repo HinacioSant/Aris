@@ -27,7 +27,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">                
-                <Button Content="Apply Changes" Click="Apply_Changes" Width="85"/>
+                <Button Content="Changes" Click="Apply_Changes" Width="85"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
