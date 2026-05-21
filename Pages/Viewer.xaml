@@ -15,6 +15,17 @@
             <Button Content="← Back" Click="Go_back" Width="80" Margin="5"/>
         </StackPanel>
 
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">            
+            <ComboBox x:Name="PageSelector" 
+                    Width="80"
+                    VerticalAlignment="Center"
+                    SelectionChanged="Page_selector"/> 
+                               
+            <TextBlock x:Name="PageLabel" Text="of 1" 
+                    VerticalAlignment="Center" Margin="5"/>
+            
+        </StackPanel>
+
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">                
                 <Button Content="Apply Changes" Click="Apply_Changes" Width="85"/>
         </StackPanel>
@@ -45,6 +56,7 @@
              <Canvas x:Name="WordCanvas" Background="Transparent" ClipToBounds="True" VerticalAlignment="Top"/>
             </ScrollViewer>
 
+            
             <StackPanel Grid.Column="3" x:Name="ChangesPanel" Background="WhiteSmoke">
                 <TextBlock Text="Pending Changes" FontWeight="Bold" Margin="5"/>
 
@@ -67,14 +79,12 @@
 
                             <Button Grid.Column="1" Content="Undo" Tag="{Binding tag_pos}" Click="Undo_Click" Width="50" Height="22"/>
                              </Grid>
-                        </DataTemplate>
+                        </DataTemplate>                        
                     </ListView.ItemTemplate>
                 </ListView>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Cancel" />
-                    <Button Content="Apply" />
-                </StackPanel>
+                              
+                <Button Content="Apply Changes" Click="Apply_Changes" Width="85" HorizontalAlignment="Center" Margin="5"/>
+                        
             </StackPanel>
         </Grid>
         

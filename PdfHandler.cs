@@ -14,36 +14,16 @@ public class PdfHandler
 
 {
     // EXTRACTOR OF EVERY WORD ON PDF 
-    public static (IEnumerable<Word>, Page) Extractor(string path, int page_number) {
+    public static IEnumerable<Word> Extractor(string path, int page_number) {
         using var document = Ut.PdfDocument.Open(path);       
         Page page = document.GetPage(page_number);  
         var letters = page.Letters; 
         var extraction = NearestNeighbourWordExtractor.Instance;
         var ex  = extraction.GetWords(letters).Where(w => !string.IsNullOrWhiteSpace(w.Text));
 
-        return (ex, page);
+        return ex;
         
-    }
-
-    // SPECIFIC WORD FINDER FOR REPLACMENT 
-    public static Finder_Data Word_Finder(IEnumerable<Word> extraction, string word_to_find){    
-   
-    var word = extraction.FirstOrDefault(w => w.Text == word_to_find);
-
-    if (word == null)
-    {
-        return null;        
-    }
-
-    return new Finder_Data(
-        Word:word.Text,
-        X:(float)word.BoundingBox.Left,
-        Y:(float)word.BoundingBox.Bottom,
-        Width:(float)word.BoundingBox.Width,
-        Height:(float)word.BoundingBox.Height
-        );
-    
-    }
+    }  
 
     // REPLACE SPECIFIC WORD ON PDF
     public static void Replacer(string current_path, string output_path, int page_number, List<Sw_c.TextBox> changes)
@@ -73,17 +53,6 @@ public class PdfHandler
       
 
         canvas.Release();
-    }
-    
-
-
-
-public record Finder_Data(
-    string Word,
-    float X,
-    float Y,
-    float Width,
-    float Height
-    );
+    } 
 
 }

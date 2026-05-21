@@ -7,7 +7,9 @@
         xmlns:local="clr-namespace:Aris"
         mc:Ignorable="d"
         Title="Aris" MinWidth="800" MinHeight="600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+        
     <Grid>
         <ContentControl x:Name="Page_content"/>       
     </Grid>

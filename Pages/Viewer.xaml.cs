@@ -20,7 +20,9 @@ namespace Aris.Pages
     {
         private PdfiumViewer.PdfViewer _pdfViewer;
         private string _current_path;
-        private int _page_number = 1;       
+        private int _page_number = 1; 
+        private int _total_pages = 1;       
+
 
 
         public Viewer(string path)
@@ -50,10 +52,33 @@ namespace Aris.Pages
                 
                 WordCanvas.Children.Clear();
 
-                _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);               
+                _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);     
+                
+                          
 
 
-                var (extraction, page) = PdfHandler.Extractor(path, page_number);
+                var extraction = PdfHandler.Extractor(path, page_number);
+
+                using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
+                var page = pigDoc.GetPage(page_number);
+
+                _total_pages = pigDoc.NumberOfPages;
+
+                if (PageSelector.Items.Count != _total_pages)
+                {
+                    for (int i = 1; i<= _total_pages; i++)
+                    {
+                        PageSelector.Items.Add(i);
+                    }
+                }
+
+                PageSelector.SelectionChanged -= Page_selector;
+                PageSelector.SelectedItem = page_number;
+                PageSelector.SelectionChanged += Page_selector;
+
+                PageLabel.Text = $"of {_total_pages}";
+
+
 
                 col_0.Width = new GridLength(page.Width);
                 col_2.Width = new GridLength(page.Width); 
@@ -61,6 +86,7 @@ namespace Aris.Pages
                 col_2.MaxWidth = page.Width;               
 
 
+               
                 
                 foreach (var word in extraction)
                 {
@@ -149,6 +175,17 @@ namespace Aris.Pages
             WordCanvas.Children.Add(wordBox);  
 
         }
+
+
+        private void Page_selector(object sender, SelectionChangedEventArgs e)
+        {
+            if (PageSelector.SelectedItem == null) return;
+
+            _page_number = (int)PageSelector.SelectedItem;
+            Load_Pdf(_current_path, _page_number);
+        }
+
+
 
         private IEnumerable<Sw_c.TextBox> Changed_words()
         {
