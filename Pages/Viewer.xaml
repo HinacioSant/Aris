@@ -27,7 +27,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">                
-                <Button Content="Changes" Click="Apply_Changes" Width="85"/>
+                <Button Content="Changes-Toggle" Click="Apply_Changes" Width="85"/> <!-- Change to toggle -->
         </StackPanel>
 
         <Grid Grid.Row="1">
