@@ -11,24 +11,34 @@
             <RowDefinition Height="*"/>   <!-- pdf viewer -->
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="← Back" Click="Go_back" Width="80" Margin="5"/>
-        </StackPanel>
+        <!-- Row 0 -->
+        <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+            <Grid>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Button Content="← Back" Click="Go_back" Width="80" Margin="5"/>
+                </StackPanel>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">            
-            <ComboBox x:Name="PageSelector" 
-                    Width="80"
-                    VerticalAlignment="Center"
-                    SelectionChanged="Page_selector"/> 
-                               
-            <TextBlock x:Name="PageLabel" Text="of 1" 
-                    VerticalAlignment="Center" Margin="5"/>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">            
+                    <ComboBox x:Name="PageSelector" 
+                            Width="80"
+                            VerticalAlignment="Center"
+                            SelectionChanged="Page_selector"/> 
+                                    
+                    <TextBlock x:Name="PageLabel" Text="of 1" 
+                            VerticalAlignment="Center" Margin="5"/>
+                    
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">                
+                        <Button Content="Changes ▼" Click="Toggle_changes" Width="85"/>
+                </StackPanel>
+            </Grid>
             
-        </StackPanel>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">                
-                <Button Content="Changes-Toggle" Click="Apply_Changes" Width="85"/> <!-- Change to toggle -->
-        </StackPanel>
+        </Border>
+
+
+        <!-- Row 1 -->
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -38,54 +48,66 @@
             </Grid.ColumnDefinitions>               
         </Grid>
 
+        <!-- Row 2 -->
+
         <Grid Grid.Row = "2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="col_0" Width="auto"/>  <!-- pdf viewer -->
                 <ColumnDefinition Width="2"/>   <!-- splitter -->
-                <ColumnDefinition x:Name="col_2" Width="auto"/>   <!-- overlay panel -->
-                <ColumnDefinition Width="*"/>   <!-- overlay panel -->
+                <ColumnDefinition x:Name="col_2" Width="*"/>   <!-- WordCanvas panel -->
             </Grid.ColumnDefinitions>  
+
+            <!-- Column 0 -->
         
             <Grid Grid.Column="0" x:Name="ViewerGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" ClipToBounds="True"/>
              <wf:WindowsFormsHost x:Name="PdfHost"/>
 
+            <!-- Column 1 -->
+
             <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Left" Background="Black"/>             
                 <!-- Canvas on top -->
             
-            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ClipToBounds="True">
+            <!-- Column 2 Word Canvas -->
+
+            <ScrollViewer Grid.Column="2" x:Name="WordScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ClipToBounds="True">
              <Canvas x:Name="WordCanvas" Background="Transparent" ClipToBounds="True" VerticalAlignment="Top"/>
             </ScrollViewer>
 
+            <!-- Column 2 Changes Panel -->
+
+            <Border Grid.Column="2" x:Name="ChangesBorder" HorizontalAlignment="Right" Visibility="Collapsed" 
+                    Panel.ZIndex="1" BorderBrush="Black" BorderThickness="1,0,1,0" Background="WhiteSmoke">
             
-            <StackPanel Grid.Column="3" x:Name="ChangesPanel" Background="WhiteSmoke">
-                <TextBlock Text="Pending Changes" FontWeight="Bold" Margin="5"/>
+                <StackPanel Grid.Column="2" x:Name="ChangesPanel" Background="WhiteSmoke" HorizontalAlignment="Right" Visibility="Collapsed" Opacity="0.95" Panel.ZIndex="1">
+                    <TextBlock Text="Pending Changes" FontWeight="Bold" Margin="5"/>
 
 
-                <ListView x:Name="ChangesList" Margin="10">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>   <!-- change info -->
-                                    <ColumnDefinition Width="60"/>  <!-- undo button -->
-                                </Grid.ColumnDefinitions>
+                    <ListView x:Name="ChangesList" Margin="10">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>   <!-- change info -->
+                                        <ColumnDefinition Width="60"/>  <!-- undo button -->
+                                    </Grid.ColumnDefinitions>
 
-                             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <TextBlock Text="{Binding Original}" Foreground="Red" TextDecorations="Strikethrough" Margin="0,0,8,0"/>
-                                <TextBlock Text="→" Margin="0,0,8,0"/>
-                                <TextBlock Text="{Binding New}" Foreground="Green"/>
-                                <TextBlock Text="{Binding Position}" Foreground="Gray" Margin="8,0,0,0" FontSize="10"/>
-                            </StackPanel>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Original}" Foreground="Red" TextDecorations="Strikethrough" Margin="0,0,8,0"/>
+                                    <TextBlock Text="→" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding New}" Foreground="Green"/>
+                                    <TextBlock Text="{Binding Position}" Foreground="Gray" Margin="8,0,0,0" FontSize="10"/>
+                                </StackPanel>
 
-                            <Button Grid.Column="1" Content="Undo" Tag="{Binding tag_pos}" Click="Undo_Click" Width="50" Height="22"/>
-                             </Grid>
-                        </DataTemplate>                        
-                    </ListView.ItemTemplate>
-                </ListView>
-                              
-                <Button Content="Apply Changes" Click="Apply_Changes" Width="85" HorizontalAlignment="Center" Margin="5"/>
-                        
-            </StackPanel>
+                                <Button Grid.Column="1" Content="Undo" Tag="{Binding tag_pos}" Click="Undo_Click" Width="50" Height="22"/>
+                                </Grid>
+                            </DataTemplate>                        
+                        </ListView.ItemTemplate>
+                    </ListView>
+                                
+                    <Button Content="Apply Changes" Click="Apply_Changes" Width="85" HorizontalAlignment="Center" Margin="5"/>                        
+                </StackPanel>
+
+            </Border>
         </Grid>
         
     

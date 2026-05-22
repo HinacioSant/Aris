@@ -80,10 +80,10 @@ namespace Aris.Pages
 
 
 
-                col_0.Width = new GridLength(page.Width);
-                col_2.Width = new GridLength(page.Width); 
+                col_0.Width = new GridLength(page.Width);               
                 WordCanvas.Height = page.Height;
-                col_2.MaxWidth = page.Width;               
+                
+                               
 
 
                
@@ -261,6 +261,25 @@ namespace Aris.Pages
 
             Refresh_Cl();
 
+        }
+
+        private void Toggle_changes(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Sw_c.Button;
+            if (ChangesBorder.Visibility == Visibility.Visible)
+            {
+                ChangesBorder.Visibility = Visibility.Collapsed;
+                ChangesPanel.Visibility = Visibility.Collapsed;
+                button.Content = "Changes ▼";
+            }
+            else
+            {
+                ChangesBorder.Visibility = Visibility.Visible;
+                ChangesPanel.Visibility = Visibility.Visible;
+
+                button.Content = "Changes ▲";
+
+            }
         }
 
 
