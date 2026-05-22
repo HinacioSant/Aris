@@ -4,4 +4,3 @@ obj/
 .vs/    
 *.pdb    
 .fake
-bin\Debug\net10.0-windows
