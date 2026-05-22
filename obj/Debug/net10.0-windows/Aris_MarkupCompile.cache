@@ -1,20 +1,20 @@
 ﻿Aris
-
+1.0.0.0
 
 winexe
 C#
 .cs
-c:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\
+C:\Users\Hinacio\Projects\C#\Aris\obj\Debug\net10.0-windows\
 Aris
 none
 false
 TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-c:\Users\Hinacio\Projects\C#\Aris\App.xaml
+C:\Users\Hinacio\Projects\C#\Aris\App.xaml
 31419158417
 1135198488
-7-666034338
+9-1812576832
 244-403362665
 MainWindow.xaml;Pages\Home.xaml;Pages\Viewer.xaml;
 
-False
+True
 

@@ -3,3 +3,7 @@ Files/file.pdf
 
 
 .fake
+bin/     # compiled output — rebuilt on dotnet build
+obj/     # intermediate build files — rebuilt automatically
+.vs/     # Visual Studio local settings
+*.pdb    # debug symbol files
