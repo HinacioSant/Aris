@@ -1,9 +1,7 @@
-Files/(Novo)CERTIDAO_00000135912017.pdf
-Files/file.pdf
-
-
+Files/
+bin/    
+obj/     
+.vs/    
+*.pdb    
 .fake
-bin/     # compiled output — rebuilt on dotnet build
-obj/     # intermediate build files — rebuilt automatically
-.vs/     # Visual Studio local settings
-*.pdb    # debug symbol files
+bin\Debug\net10.0-windows
