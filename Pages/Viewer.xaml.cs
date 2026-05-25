@@ -11,6 +11,8 @@ using iText.Layout.Element;
 using System.Windows.Documents;
 using UglyToad.PdfPig.Content;
 using System.IO;
+using Aris.Models;
+using Aris.Services;
 
 
 
@@ -53,9 +55,6 @@ namespace Aris.Pages
                 WordCanvas.Children.Clear();
 
                 _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);     
-                
-                          
-
 
                 var extraction = PdfHandler.Extractor(path, page_number);
 
@@ -82,26 +81,15 @@ namespace Aris.Pages
 
                 col_0.Width = new GridLength(page.Width);               
                 WordCanvas.Height = page.Height;
-                
-                               
-
 
                
                 
                 foreach (var word in extraction)
                 {
                     var font_name = word.FontName ?? "Arial";
-
-                    Draw_coordinates(
-                        word.Text,
-                        font_name,
-                        (float)word.Letters[0].FontSize,
-                        (float)word.BoundingBox.Left,
-                        (float)(page.Height - word.BoundingBox.Bottom ),
-                        (float)word.BoundingBox.Width,
-                        (float)word.BoundingBox.Height,
-                        (float)word.BoundingBox.Bottom  
-                        );
+                    var pos = new Word_data(word.Text, (float)word.BoundingBox.Left, (float)(page.Height - word.BoundingBox.Bottom), 
+                    (float)word.BoundingBox.Width, (float)word.BoundingBox.Height, font_name, (float)word.Letters[0].FontSize, (float)word.BoundingBox.Bottom);
+                    Draw_coordinates(pos);
                     
                 }     
             }
@@ -114,13 +102,13 @@ namespace Aris.Pages
 
         }
 
-        private void Draw_coordinates(string text, string font, float font_size ,float x, float y, float width, float height, float base_y)
+        private void Draw_coordinates(Word_data pos)
         {
-            var fontWeight = font.Contains("-Bold", StringComparison.OrdinalIgnoreCase) 
+            var fontWeight = pos.Font.Contains("-Bold", StringComparison.OrdinalIgnoreCase) 
                         ? FontWeights.Bold 
                         : FontWeights.Normal;
 
-            var fontStyle = font.Contains("-Italic", StringComparison.OrdinalIgnoreCase) 
+            var fontStyle = pos.Font.Contains("-Italic", StringComparison.OrdinalIgnoreCase) 
                         ? FontStyles.Italic 
                         : FontStyles.Normal;
 
@@ -128,18 +116,18 @@ namespace Aris.Pages
             
             var wordBox = new Sw_c.TextBox
             {
-                Text = text,
-                FontFamily = new Sys_media.FontFamily(font),  
+                Text = pos.Text,
+                FontFamily = new Sys_media.FontFamily(pos.Font),  
                 FontWeight = fontWeight,
                 FontStyle = fontStyle,                  
-                Width = width + 7,
-                Height = height + 10,
-                FontSize = font_size,
+                Width = pos.Width + 7,
+                Height = pos.Height + 10,
+                FontSize = pos.Font_size,
                 BorderThickness = new Thickness(0),
                 Background = Sys_media_B.Transparent,
                 Foreground = Sys_media_B.Black,
                 Padding = new Thickness(0),
-                Tag = new Word_data(text, x, y, width, height, font, font_size, base_y),
+                Tag = new Word_data(pos.Text, pos.X, pos.Y, pos.Width, pos.Height, pos.Font, pos.Font_size, pos.Base_y),
                 IsReadOnly = true,
                 Cursor = Sw.Input.Cursors.Hand
             };
@@ -170,8 +158,8 @@ namespace Aris.Pages
 
 
 
-            Canvas.SetLeft(wordBox, x);
-            Canvas.SetTop(wordBox, y);
+            Canvas.SetLeft(wordBox, pos.X);
+            Canvas.SetTop(wordBox, pos.Y);
             WordCanvas.Children.Add(wordBox);  
 
         }
@@ -287,7 +275,6 @@ namespace Aris.Pages
         {
             NavService.GoHome();
         }
-
-        public record Word_data(string Text, float X, float Y, float Width, float Height, string Font, float Font_size, float Base_y);
+        
     }
 }
