@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 
 namespace Aris
@@ -12,11 +13,25 @@ namespace Aris
         public MainWindow()
         {
             InitializeComponent();   
+
+            NavService.On_OpenViewer += OpenViewer;
+            NavService.On_GoHome += GoHome;
+
             Width  = SystemParameters.PrimaryScreenWidth  * 0.3;
             Height = SystemParameters.PrimaryScreenHeight * 0.85;
 
             Page_content.Content = new Pages.Home();
 
+        }
+
+        private void OpenViewer(string filepath)
+        {
+            Page_content.Content = new Pages.Viewer(filepath);
+        }
+
+        private void GoHome()
+        {
+            Page_content.Content = new Pages.Home();
         }
 
         public void Nav_Viewer(string path)

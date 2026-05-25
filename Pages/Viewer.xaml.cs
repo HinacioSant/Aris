@@ -285,8 +285,7 @@ namespace Aris.Pages
 
         private void Go_back(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Sw.Application.Current.MainWindow as MainWindow;
-            mainWindow!.Page_content.Content = new Home();
+            NavService.GoHome();
         }
 
         public record Word_data(string Text, float X, float Y, float Width, float Height, string Font, float Font_size, float Base_y);

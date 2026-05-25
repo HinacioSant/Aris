@@ -22,8 +22,7 @@ namespace Aris.Pages
 
             if (dialog.ShowDialog() == true)
             {
-                var mainWindow = Sw.Application.Current.MainWindow as MainWindow;
-                mainWindow?.Nav_Viewer(dialog.FileName);
+                NavService.OpenViewer(dialog.FileName);
             }
             
         }
