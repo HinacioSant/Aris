@@ -3,8 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wf="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"       
+        xmlns:wf="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"   
+        xmlns:vm="clr-namespace:Aris.Services"    
         mc:Ignorable="d">
+     <UserControl.DataContext>
+        <vm:ViewerViewModel/>   <!-- ViewModel attached here -->
+    </UserControl.DataContext>   
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    </UserControl.Resources>    
+
     <Grid>
          <Grid.RowDefinitions>
             <RowDefinition Height="40"/>  <!-- toolbar -->
@@ -28,10 +36,7 @@
                             VerticalAlignment="Center" Margin="5"/>
                     
                 </StackPanel>
-
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">                
-                        <Button Content="Changes ▼" Click="Toggle_changes" Width="85"/>
-                </StackPanel>
+               
             </Grid>
             
 
@@ -75,30 +80,39 @@
 
             <!-- Column 2 Changes Panel -->
 
-            <Border Grid.Column="2" x:Name="ChangesBorder" HorizontalAlignment="Right" Visibility="Collapsed" 
+            <Border Grid.Column="2" x:Name="ChangesBorder" HorizontalAlignment="Right" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" 
                     Panel.ZIndex="1" BorderBrush="Black" BorderThickness="1,0,1,0" Background="WhiteSmoke">
-            
-                <StackPanel Grid.Column="2" x:Name="ChangesPanel" Background="WhiteSmoke" HorizontalAlignment="Right" Visibility="Collapsed" Opacity="0.95" Panel.ZIndex="1">
-                    <TextBlock Text="Pending Changes" FontWeight="Bold" Margin="5"/>
 
+                <StackPanel Grid.Column="2" x:Name="ChangesPanel" Background="WhiteSmoke" HorizontalAlignment="Right" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}"  Opacity="0.95" Panel.ZIndex="1">
+                <TextBlock Text="{Binding PendingLabel}" Foreground="Red" />                
 
-                    <ListView x:Name="ChangesList" Margin="10">
+                    <ListView x:Name="ChangesList" Margin="10" ItemsSource="{Binding ChangedWords}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid  MinHeight="30">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>   <!-- change info -->
                                         <ColumnDefinition Width="60"/>  <!-- undo button -->
                                     </Grid.ColumnDefinitions>
-
+                                    
                                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Original}" Foreground="Red" TextDecorations="Strikethrough" Margin="0,0,8,0"/>
+                                    <TextBlock Text="{Binding Og_Text}" Foreground="Red" TextDecorations="Strikethrough" Margin="0,0,8,0"/>
                                     <TextBlock Text="→" Margin="0,0,8,0"/>
-                                    <TextBlock Text="{Binding New}" Foreground="Green"/>
-                                    <TextBlock Text="{Binding Position}" Foreground="Gray" Margin="8,0,0,0" FontSize="10"/>
+                                    <TextBlock Text="{Binding New_Text}" Foreground="Green"/>
+
+                                    <TextBlock Foreground="Gray" Margin="0,0,0,0" FontSize="10">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="(X:{0:F0}-Y:{1:F0})">
+                                                <Binding Path="Position.X"/>
+                                                <Binding Path="Position.Y"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock> 
+                                    <TextBlock Text=" | " Margin="0,0,8,0"/>
+
                                 </StackPanel>
 
-                                <Button Grid.Column="1" Content="Undo" Tag="{Binding tag_pos}" Click="Undo_Click" Width="50" Height="22"/>
+                                <Button Grid.Column="1" Content="Undo" HorizontalAlignment="Right" Tag="{Binding}" Click="Undo_Click" Width="50" Height="22"/>
                                 </Grid>
                             </DataTemplate>                        
                         </ListView.ItemTemplate>

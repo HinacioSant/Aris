@@ -13,23 +13,27 @@ using UglyToad.PdfPig.Content;
 using System.IO;
 using Aris.Models;
 using Aris.Services;
+using System.ComponentModel;
+using System.Windows.Data;
 
 
 
 namespace Aris.Pages
 {
-    public partial class Viewer
+    public partial class Viewer : Sw_c.UserControl
     {
         private PdfiumViewer.PdfViewer _pdfViewer;
-        private string _current_path;
+        public string _current_path;
         private int _page_number = 1; 
-        private int _total_pages = 1;       
-
+        private int _total_pages = 1;          
+        private readonly ViewerViewModel _viewModel;
 
 
         public Viewer(string path)
         {
-            InitializeComponent();   
+            InitializeComponent(); 
+            _viewModel = new ViewerViewModel();
+            DataContext = _viewModel;
 
 
             _pdfViewer = new PdfiumViewer.PdfViewer
@@ -43,6 +47,8 @@ namespace Aris.Pages
             _current_path = path;
 
             Load_Pdf(path, _page_number);
+           
+
         }     
             
         
@@ -50,13 +56,9 @@ namespace Aris.Pages
         private void Load_Pdf(string path, int page_number)
         {
             try
-            {                
-                
-                WordCanvas.Children.Clear();
+            {     
 
-                _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);     
-
-                var extraction = PdfHandler.Extractor(path, page_number);
+                _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);
 
                 using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
                 var page = pigDoc.GetPage(page_number);
@@ -77,21 +79,13 @@ namespace Aris.Pages
 
                 PageLabel.Text = $"of {_total_pages}";
 
-
-
                 col_0.Width = new GridLength(page.Width);               
                 WordCanvas.Height = page.Height;
 
-               
-                
-                foreach (var word in extraction)
-                {
-                    var font_name = word.FontName ?? "Arial";
-                    var pos = new Word_data(word.Text, (float)word.BoundingBox.Left, (float)(page.Height - word.BoundingBox.Bottom), 
-                    (float)word.BoundingBox.Width, (float)word.BoundingBox.Height, font_name, (float)word.Letters[0].FontSize, (float)word.BoundingBox.Bottom);
-                    Draw_coordinates(pos);
-                    
-                }     
+
+                _viewModel.LoadPage(path, _page_number); 
+                Draw_Words();               
+                     
             }
             catch (Exception ex)
             {
@@ -101,68 +95,80 @@ namespace Aris.Pages
 
 
         }
-
-        private void Draw_coordinates(Word_data pos)
+        private void Draw_Words()
         {
-            var fontWeight = pos.Font.Contains("-Bold", StringComparison.OrdinalIgnoreCase) 
+            WordCanvas.Children.Clear();
+            _viewModel.RefreshChangedWords();
+
+            foreach (var word in _viewModel.Words)
+            {   
+                var pos = word.Position;
+                
+                var fontWeight = pos.Font.Contains("-Bold", StringComparison.OrdinalIgnoreCase) 
                         ? FontWeights.Bold 
                         : FontWeights.Normal;
 
-            var fontStyle = pos.Font.Contains("-Italic", StringComparison.OrdinalIgnoreCase) 
-                        ? FontStyles.Italic 
-                        : FontStyles.Normal;
-
-            
-            
-            var wordBox = new Sw_c.TextBox
-            {
-                Text = pos.Text,
-                FontFamily = new Sys_media.FontFamily(pos.Font),  
-                FontWeight = fontWeight,
-                FontStyle = fontStyle,                  
-                Width = pos.Width + 7,
-                Height = pos.Height + 10,
-                FontSize = pos.Font_size,
-                BorderThickness = new Thickness(0),
-                Background = Sys_media_B.Transparent,
-                Foreground = Sys_media_B.Black,
-                Padding = new Thickness(0),
-                Tag = new Word_data(pos.Text, pos.X, pos.Y, pos.Width, pos.Height, pos.Font, pos.Font_size, pos.Base_y),
-                IsReadOnly = true,
-                Cursor = Sw.Input.Cursors.Hand
-            };
-            
-            wordBox.PreviewMouseDown += (s,e) =>
-            {
-              wordBox.IsReadOnly = false;
-              wordBox.Background = Sys_media_B.LightYellow;
-              wordBox.Focus();  
-            };
-
-            wordBox.LostFocus += (s,e) =>
-            {
-                wordBox.IsReadOnly = true;
-                wordBox.Background = Sys_media_B.Transparent;
-
-                var position = wordBox.Tag as Word_data;
-                if (position == null) return;
-
-                if (wordBox.Text != position.Text)
+                var fontStyle = pos.Font.Contains("-Italic", StringComparison.OrdinalIgnoreCase) 
+                            ? FontStyles.Italic 
+                            : FontStyles.Normal;
+                
+                var wordBox = new Sw_c.TextBox
                 {
-                    wordBox.Background = Sys_media_B.LightGreen;  
-                }
+                    Text = word.New_Text,
+                    FontFamily = new Sys_media.FontFamily(pos.Font),  
+                    FontWeight = fontWeight,
+                    FontStyle = fontStyle,                  
+                    Width = pos.Width + 7,
+                    Height = pos.Height + 10,
+                    FontSize = pos.Font_size,
+                    BorderThickness = new Thickness(0),
+                    Background = Sys_media_B.Transparent,
+                    Foreground = Sys_media_B.Black,
+                    Padding = new Thickness(0),                   
+                    IsReadOnly = true,
+                    Cursor = Sw.Input.Cursors.Hand
+                };
+                
+                var binding = new Sw.Data.Binding("New_Text")
+                {
+                  Source = word,
+                  Mode = BindingMode.TwoWay,
+                  UpdateSourceTrigger = UpdateSourceTrigger.LostFocus  
+                };
+                wordBox.SetBinding(Sw_c.TextBox.TextProperty, binding);
 
-                Refresh_Cl();
+                wordBox.PreviewMouseDown += (s,e) =>
+                    {
+                        wordBox.IsReadOnly = false;
+                        wordBox.Background = Sys_media_B.LightYellow;
+                        wordBox.Focus();  
+                    };
 
-            };
+                wordBox.LostFocus += (s,e) =>
+                    {   
+                        wordBox.IsReadOnly = true;   
+                        wordBox.Background = Sys_media_B.Transparent;                        
+                        if (word.Is_changed)
+                        {
+                            wordBox.Background = Sys_media_B.LightGreen;                            
+                        }                                             
+                    };
 
+                word.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(Word_Model.Is_changed)) wordBox.Background = word.Is_changed ? Sys_media_B.LightGreen : Sys_media_B.Transparent; 
+                };
+               
 
+                Canvas.SetLeft(wordBox, pos.X);
+                Canvas.SetTop(wordBox, pos.Y);
+                WordCanvas.Children.Add(wordBox);
 
-            Canvas.SetLeft(wordBox, pos.X);
-            Canvas.SetTop(wordBox, pos.Y);
-            WordCanvas.Children.Add(wordBox);  
+            }
 
+            
         }
+
 
 
         private void Page_selector(object sender, SelectionChangedEventArgs e)
@@ -173,24 +179,11 @@ namespace Aris.Pages
             Load_Pdf(_current_path, _page_number);
         }
 
-
-
-        private IEnumerable<Sw_c.TextBox> Changed_words()
-        {
-            return WordCanvas.Children.OfType<Sw_c.TextBox>().Where(box =>
-            {
-                var position = box.Tag as Word_data;
-                return position != null && box.Text != position.Text;
-            });
-        }
-        
-
         private void Apply_Changes(object sender, RoutedEventArgs e)
         {
-            var changes = Changed_words().ToList();
+            var output_path = PdfChanges.Output_generator(_current_path);            
 
-            var output_path = System.IO.Path.Combine(Path.GetDirectoryName(_current_path),"[Edited]-" + System.IO.Path.GetFileName(_current_path));  
-
+            var changes = _viewModel.ChangedWords.ToList();
             if (changes.Count == 0)
             {
                 Sw.MessageBox.Show("No Changes to apply.");
@@ -199,77 +192,23 @@ namespace Aris.Pages
 
             var result = Sw.MessageBox.Show($"Apply {changes.Count} changes", "Confirm", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
-            {
-                
+            {     
+
                 PdfHandler.Replacer(_current_path, output_path, _page_number, changes);
-                
-                _current_path = output_path;
-                Load_Pdf(_current_path, _page_number);
-                Refresh_Cl();
+                _current_path = output_path;                 
+                Load_Pdf(_current_path, _page_number);   
 
-                
-            }       
-            
-        }
+            }
 
-        private void Refresh_Cl()
-        {
-            var changes = Changed_words().Select(box =>
-            {
-                var pos = box.Tag as Word_data;
-                return new
-                {
-                    Original = pos?.Text,
-                    New = box.Text,
-                    Position = $"({pos?.X:F0}, {pos?.Y:F0})",
-                    tag_pos = pos
-                };
-            }).ToList();
-
-            ChangesList.ItemsSource = changes;            
-        }
+        }      
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Sw_c.Button;
-            var tag_pos = button?.Tag as Word_data;
-            if (tag_pos == null) return;
-
-            var box = Changed_words().FirstOrDefault(b =>
-            {
-                var pos = b.Tag as Word_data;
-                return pos?.X == tag_pos?.X && pos?.Y == tag_pos?.Y;
-            });
-
-            if (box != null)
-            {
-                box.Text = tag_pos.Text;
-                box.Background = Sys_media_B.Transparent;
-            }
-
-            Refresh_Cl();
+            var word = (sender as Sw_c.Button)?.Tag as Word_Model;           
+            _viewModel.Undo(word);
+            
 
         }
-
-        private void Toggle_changes(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Sw_c.Button;
-            if (ChangesBorder.Visibility == Visibility.Visible)
-            {
-                ChangesBorder.Visibility = Visibility.Collapsed;
-                ChangesPanel.Visibility = Visibility.Collapsed;
-                button.Content = "Changes ▼";
-            }
-            else
-            {
-                ChangesBorder.Visibility = Visibility.Visible;
-                ChangesPanel.Visibility = Visibility.Visible;
-
-                button.Content = "Changes ▲";
-
-            }
-        }
-
 
         private void Go_back(object sender, RoutedEventArgs e)
         {
