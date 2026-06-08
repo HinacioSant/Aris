@@ -27,12 +27,9 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">            
-                    <ComboBox x:Name="PageSelector" 
-                            Width="80"
-                            VerticalAlignment="Center"
-                            SelectionChanged="Page_selector"/> 
+                    <ComboBox Width="80" VerticalAlignment="Center" ItemsSource="{Binding Pages}" SelectedValue="{Binding SelectedPage, Mode=TwoWay}"/> 
                                     
-                    <TextBlock x:Name="PageLabel" Text="of 1" 
+                    <TextBlock x:Name="PageLabel" Text="{Binding Pages.Count}" 
                             VerticalAlignment="Center" Margin="5"/>
                     
                 </StackPanel>

@@ -24,8 +24,7 @@ namespace Aris.Pages
     {
         private PdfiumViewer.PdfViewer _pdfViewer;
         public string _current_path;
-        private int _page_number = 1; 
-        private int _total_pages = 1;          
+        private int _page_number = 1;              
         private readonly ViewerViewModel _viewModel;
 
 
@@ -35,6 +34,10 @@ namespace Aris.Pages
             _viewModel = new ViewerViewModel();
             DataContext = _viewModel;
 
+            _viewModel.OnPageChange = n_page => {
+                _page_number = n_page;
+                Draw_Words();
+                };
 
             _pdfViewer = new PdfiumViewer.PdfViewer
             {
@@ -45,45 +48,34 @@ namespace Aris.Pages
 
             PdfHost.Child = _pdfViewer;                    
             _current_path = path;
-
-            Load_Pdf(path, _page_number);
-           
+            Load_Pdf(path);
+          
 
         }     
             
         
 
-        private void Load_Pdf(string path, int page_number)
+        private void Load_Pdf(string path)
         {
             try
             {     
-
                 _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);
+                _viewModel.CurrentPath = path;
+
 
                 using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
-                var page = pigDoc.GetPage(page_number);
+                var page = pigDoc.GetPage(_page_number);
 
-                _total_pages = pigDoc.NumberOfPages;
 
-                if (PageSelector.Items.Count != _total_pages)
-                {
-                    for (int i = 1; i<= _total_pages; i++)
-                    {
-                        PageSelector.Items.Add(i);
-                    }
-                }
+                var total_pages = pigDoc.NumberOfPages;
+                _viewModel.PageSelection(total_pages, _page_number);  
 
-                PageSelector.SelectionChanged -= Page_selector;
-                PageSelector.SelectedItem = page_number;
-                PageSelector.SelectionChanged += Page_selector;
-
-                PageLabel.Text = $"of {_total_pages}";
 
                 col_0.Width = new GridLength(page.Width);               
                 WordCanvas.Height = page.Height;
 
 
-                _viewModel.LoadPage(path, _page_number); 
+                _viewModel.LoadPage(_page_number); 
                 Draw_Words();               
                      
             }
@@ -170,15 +162,6 @@ namespace Aris.Pages
         }
 
 
-
-        private void Page_selector(object sender, SelectionChangedEventArgs e)
-        {
-            if (PageSelector.SelectedItem == null) return;
-
-            _page_number = (int)PageSelector.SelectedItem;
-            Load_Pdf(_current_path, _page_number);
-        }
-
         private void Apply_Changes(object sender, RoutedEventArgs e)
         {
             var output_path = PdfChanges.Output_generator(_current_path);            
@@ -196,7 +179,7 @@ namespace Aris.Pages
 
                 PdfHandler.Replacer(_current_path, output_path, _page_number, changes);
                 _current_path = output_path;                 
-                Load_Pdf(_current_path, _page_number);   
+                Load_Pdf(_current_path);   
 
             }
 

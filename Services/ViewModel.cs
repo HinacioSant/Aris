@@ -22,15 +22,19 @@ namespace Aris.Services
 {   
     public class ViewerViewModel : INotifyPropertyChanged
     {
+        public string CurrentPath {get; set;}
         private List<Word_Model> _words = new();
         public ObservableCollection<Word_Model> Words { get; } = new();
         public ObservableCollection<Word_Model> ChangedWords { get; } = new();
+        public ObservableCollection<int> Pages { get; }= new();
+        public Action<int>? OnPageChange { get; set; }
 
-        private string _pendingLabel;
-        public string PendingLabel
+        private string? _pendingLabel;
+        public string? PendingLabel
         {
             get => _pendingLabel;
-            set { _pendingLabel = value; OnPropertyChanged(); }
+            set { _pendingLabel = value; OnPropertyChanged();                               
+            }
         }
 
         private bool _hasChanges;
@@ -40,12 +44,29 @@ namespace Aris.Services
             set { _hasChanges = value; OnPropertyChanged();}
         }
 
-        public void LoadPage(string path, int pageNumber)
+        private int _Selected_Page;
+
+        public int SelectedPage
+        {
+            get => _Selected_Page;
+            set
+            {
+                if (_Selected_Page == value || value < 1) return;
+                _Selected_Page = value; OnPropertyChanged(); 
+                LoadPage(value);  
+                OnPageChange?.Invoke(value);                  
+            }
+        }
+        
+
+
+        public void LoadPage(int pageNumber)
         {
             Words.Clear();
+            var path = CurrentPath;
             using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
-            var page = pigDoc.GetPage(1);
-
+            var page = pigDoc.GetPage(pageNumber); 
+               
             foreach (var pos in PdfHandler.Extractor(path, pageNumber))
             {
                 var word = new Word_Model
@@ -82,9 +103,19 @@ namespace Aris.Services
         {
             word.New_Text = word.Og_Text;
         }
+
+        public void PageSelection(int total_pages, int selected_page)
+        {
+            Pages.Clear();
+            for (int i =1; i <= total_pages; i++)
+            {
+                Pages.Add(i);
+            }
+            SelectedPage = selected_page;
+        }
         
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

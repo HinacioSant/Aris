@@ -7,20 +7,20 @@ namespace Aris.Models
 
     public class Word_Model : INotifyPropertyChanged    
     {    
-        private string _new_text;    
-        public Word_data Position { get; init;}
-        public string New_Text { get => _new_text; set
+        private string? _new_text;    
+        public Word_data? Position { get; init;}
+        public string? New_Text { get => _new_text; set
             {
                 _new_text = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Is_changed));
             }}
-        public string Og_Text { get; init;}
+        public string? Og_Text { get; init;}
         public bool Is_changed => New_Text != Og_Text;
        
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
     }
 }
