@@ -7,6 +7,7 @@ namespace Aris.Models
 
     public class Word_Model : INotifyPropertyChanged    
     {    
+        public int ID {get; set;}
         private string? _new_text;    
         public Word_data? Position { get; init;}
         public string? New_Text { get => _new_text; set

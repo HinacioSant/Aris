@@ -22,10 +22,10 @@ namespace Aris.Services
 {   
     public class ViewerViewModel : INotifyPropertyChanged
     {
-        public string CurrentPath {get; set;}
-        private List<Word_Model> _words = new();
+        public string? CurrentPath {get; set;}
         public ObservableCollection<Word_Model> Words { get; } = new();
         public ObservableCollection<Word_Model> ChangedWords { get; } = new();
+        private Dictionary<int, List<Word_Model>> _ChangesPerPage = new();
         public ObservableCollection<int> Pages { get; }= new();
         public Action<int>? OnPageChange { get; set; }
 
@@ -52,8 +52,9 @@ namespace Aris.Services
             set
             {
                 if (_Selected_Page == value || value < 1) return;
+                if (_Selected_Page > 0) OnPageLeave(_Selected_Page);
                 _Selected_Page = value; OnPropertyChanged(); 
-                LoadPage(value);  
+                OnPageArrive(value);  
                 OnPageChange?.Invoke(value);                  
             }
         }
@@ -65,12 +66,13 @@ namespace Aris.Services
             Words.Clear();
             var path = CurrentPath;
             using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
-            var page = pigDoc.GetPage(pageNumber); 
+            var page = pigDoc.GetPage(pageNumber);            
                
-            foreach (var pos in PdfHandler.Extractor(path, pageNumber))
+            foreach (var (pos, index) in PdfHandler.Extractor(path, pageNumber).Select((pos, i) => (pos, i)))
             {
                 var word = new Word_Model
                 {
+                    ID = index,
                     Position    = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
                         (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, pos.FontName ?? "Arial", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
                     New_Text = pos.Text,
@@ -83,9 +85,11 @@ namespace Aris.Services
                     if (e.PropertyName == nameof(Word_Model.Is_changed))
                         RefreshChangedWords();
                 };
-
-                Words.Add(word);
+                
+                Words.Add(word);                
             }
+
+            
         }
 
         public void RefreshChangedWords()
@@ -111,7 +115,28 @@ namespace Aris.Services
             {
                 Pages.Add(i);
             }
+            _Selected_Page = 0; // buffer so page can load before calling selectedPage | else selected page number may appear blank
             SelectedPage = selected_page;
+        }
+
+        public void OnPageLeave(int page) // Holds Previous page changed words on page leave
+        {
+            _ChangesPerPage[page] = ChangedWords.ToList();
+        }
+        public void OnPageArrive(int page)
+        {
+            LoadPage(page);
+            var saved = new ObservableCollection<Word_Model>(_ChangesPerPage.TryGetValue(page, out var list) ? list : Enumerable.Empty<Word_Model>());
+            ChangedWords.Clear();
+            foreach (var c in saved)
+            {
+                ChangedWords.Add(c);
+                var old_words = Words.Where(w => w.ID == c.ID);
+                foreach (var w in old_words)
+                {
+                    w.New_Text = c.New_Text;                    
+                }
+            }
         }
         
         public event PropertyChangedEventHandler? PropertyChanged;

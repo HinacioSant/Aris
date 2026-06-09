@@ -189,8 +189,6 @@ namespace Aris.Pages
         {
             var word = (sender as Sw_c.Button)?.Tag as Word_Model;           
             _viewModel.Undo(word);
-            
-
         }
 
         private void Go_back(object sender, RoutedEventArgs e)
