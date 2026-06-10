@@ -117,6 +117,7 @@ namespace Aris.Services
             }
             _Selected_Page = 0; // buffer so page can load before calling selectedPage | else selected page number may appear blank
             SelectedPage = selected_page;
+            _ChangesPerPage.Clear();
         }
 
         public void OnPageLeave(int page) // Holds Previous page changed words on page leave
@@ -137,6 +138,14 @@ namespace Aris.Services
                     w.New_Text = c.New_Text;                    
                 }
             }
+        }
+
+        public Dictionary<int, List<Word_Model>> ChangesToApply()
+        {
+            var changes = new Dictionary<int, List<Word_Model>>(_ChangesPerPage);
+            if (ChangedWords.Any()) changes[SelectedPage] = ChangedWords.ToList();          
+
+            return changes;
         }
         
         public event PropertyChangedEventHandler? PropertyChanged;

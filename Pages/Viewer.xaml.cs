@@ -164,9 +164,9 @@ namespace Aris.Pages
 
         private void Apply_Changes(object sender, RoutedEventArgs e)
         {
-            var output_path = PdfChanges.Output_generator(_current_path);            
+            var output_path = PdfChanges.Output_generator(_current_path);  
 
-            var changes = _viewModel.ChangedWords.ToList();
+            var changes = _viewModel.ChangesToApply();
             if (changes.Count == 0)
             {
                 Sw.MessageBox.Show("No Changes to apply.");
@@ -177,7 +177,7 @@ namespace Aris.Pages
             if (result == MessageBoxResult.Yes)
             {     
 
-                PdfHandler.Replacer(_current_path, output_path, _page_number, changes);
+                PdfHandler.Replacer(_current_path, output_path, changes);
                 _current_path = output_path;                 
                 Load_Pdf(_current_path);   
 
