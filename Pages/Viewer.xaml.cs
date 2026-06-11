@@ -34,8 +34,9 @@ namespace Aris.Pages
             _viewModel = new ViewerViewModel();
             DataContext = _viewModel;
 
-            _viewModel.OnPageChange = n_page => {
+            _viewModel.OnPageChange = async n_page => {
                 _page_number = n_page;
+                await _viewModel.OnPageArrive(n_page);
                 Draw_Words();
                 };
 
@@ -173,7 +174,7 @@ namespace Aris.Pages
                 return;
             } 
 
-            var result = Sw.MessageBox.Show($"Apply {changes.Count} changes", "Confirm", MessageBoxButton.YesNo);
+            var result = Sw.MessageBox.Show($"Apply {changes.Values.Sum(list => list.Count)} changes", "Confirm", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {     
 

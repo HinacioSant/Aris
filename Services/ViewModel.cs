@@ -53,12 +53,11 @@ namespace Aris.Services
             {
                 if (_Selected_Page == value || value < 1) return;
                 if (_Selected_Page > 0) OnPageLeave(_Selected_Page);
-                _Selected_Page = value; OnPropertyChanged(); 
-                OnPageArrive(value);  
+                _Selected_Page = value; 
+                OnPropertyChanged();                 
                 OnPageChange?.Invoke(value);                  
             }
-        }
-        
+        }       
 
 
         public void LoadPage(int pageNumber)
@@ -87,9 +86,7 @@ namespace Aris.Services
                 };
                 
                 Words.Add(word);                
-            }
-
-            
+            }            
         }
 
         public void RefreshChangedWords()
@@ -124,20 +121,20 @@ namespace Aris.Services
         {
             _ChangesPerPage[page] = ChangedWords.ToList();
         }
-        public void OnPageArrive(int page)
+      
+        public async Task OnPageArrive(int page)
         {
-            LoadPage(page);
-            var saved = new ObservableCollection<Word_Model>(_ChangesPerPage.TryGetValue(page, out var list) ? list : Enumerable.Empty<Word_Model>());
-            ChangedWords.Clear();
-            foreach (var c in saved)
+            await PopulateWords(page);
+
+            if (_ChangesPerPage.TryGetValue(page, out var saved))
             {
-                ChangedWords.Add(c);
-                var old_words = Words.Where(w => w.ID == c.ID);
-                foreach (var w in old_words)
+                foreach (var c in saved)
                 {
-                    w.New_Text = c.New_Text;                    
+                    var old_word = Words.FirstOrDefault(w => w.ID == c.ID);
+                    old_word?.New_Text = c.New_Text; 
                 }
             }
+           RefreshChangedWords();
         }
 
         public Dictionary<int, List<Word_Model>> ChangesToApply()
@@ -146,6 +143,42 @@ namespace Aris.Services
             if (ChangedWords.Any()) changes[SelectedPage] = ChangedWords.ToList();          
 
             return changes;
+        }
+        private List<Word_Model> ExtractorHandler(int pageNumber)
+        {
+            var result = new List<Word_Model>();
+            var path = CurrentPath;
+            using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
+            var page = pigDoc.GetPage(pageNumber);            
+               
+            foreach (var (pos, index) in PdfHandler.Extractor(path, pageNumber).Select((pos, i) => (pos, i)))
+            {
+                result.Add( new Word_Model
+                {
+                    ID = index,
+                    Position  = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
+                        (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, pos.FontName ?? "Arial", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
+                    New_Text = pos.Text,
+                    Og_Text = pos.Text
+                });
+            }
+            return result;
+        }
+
+        public async Task PopulateWords(int pageNumber)
+        {
+            Words.Clear();
+            var extraction = await Task.Run(() => ExtractorHandler(pageNumber));
+            foreach (var word in extraction)
+            {
+                 // listen for changes on each word
+                word.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(Word_Model.Is_changed))
+                        RefreshChangedWords();
+                };                
+                Words.Add(word);   
+            }
         }
         
         public event PropertyChangedEventHandler? PropertyChanged;
