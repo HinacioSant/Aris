@@ -96,8 +96,6 @@
                                     <TextBlock Text="{Binding Og_Text}" Foreground="Red" TextDecorations="Strikethrough" Margin="0,0,8,0"/>
                                     <TextBlock Text="→" Margin="0,0,8,0"/>
                                     <TextBlock Text="{Binding New_Text}" Foreground="Green"/>
-                                    <TextBlock Text="{Binding ID}" Foreground="Blue"/>
-
 
                                     <TextBlock Foreground="Gray" Margin="0,0,0,0" FontSize="10">
                                         <TextBlock.Text>
