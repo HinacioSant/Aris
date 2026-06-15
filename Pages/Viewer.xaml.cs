@@ -15,12 +15,13 @@ using Aris.Models;
 using Aris.Services;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Diagnostics;
 
 
 
 namespace Aris.Pages
 {
-    public partial class Viewer : Sw_c.UserControl
+    public partial class Viewer : Sw_c.UserControl, IDisposable
     {
         private PdfiumViewer.PdfViewer _pdfViewer;
         public string _current_path;
@@ -50,10 +51,7 @@ namespace Aris.Pages
             PdfHost.Child = _pdfViewer;                    
             _current_path = path;
             Load_Pdf(path);
-          
-
-        }     
-            
+        }                 
         
 
         private void Load_Pdf(string path)
@@ -177,7 +175,8 @@ namespace Aris.Pages
             var result = Sw.MessageBox.Show($"Apply {changes.Values.Sum(list => list.Count)} changes", "Confirm", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {     
-
+                _pdfViewer.Document?.Dispose();
+                _pdfViewer.Document = null;
                 PdfHandler.Replacer(_current_path, output_path, changes);
                 _current_path = output_path;                 
                 Load_Pdf(_current_path);   
@@ -195,6 +194,15 @@ namespace Aris.Pages
         private void Go_back(object sender, RoutedEventArgs e)
         {
             NavService.GoHome();
+        }
+
+        public void Dispose()
+        {
+            Debug.WriteLine("Viewer disposing...");
+            _pdfViewer.Document?.Dispose();
+            _pdfViewer.Document = null;
+            _pdfViewer.Dispose();
+            Debug.WriteLine("Viewer disposed");           
         }
         
     }

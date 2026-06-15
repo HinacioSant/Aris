@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Aris.Services;
+using System.Diagnostics;
 
 
 namespace Aris
@@ -27,11 +28,13 @@ namespace Aris
 
         private void OpenViewer(string filepath)
         {
+            if (Page_content.Content is Pages.Viewer existingViewer) existingViewer.Dispose();
             Page_content.Content = new Pages.Viewer(filepath);
         }
 
         private void GoHome()
         {
+            if (Page_content.Content is Pages.Viewer existingViewer) existingViewer.Dispose();
             Page_content.Content = new Pages.Home();
         }
 

@@ -9,6 +9,7 @@ using iText.IO.Font.Constants;
 using Aris.Pages;
 using Aris.Models;
 using Sw_c = System.Windows.Controls;
+using System.IO;
 
 namespace Aris.Services
 {
@@ -39,31 +40,46 @@ namespace Aris.Services
         // REPLACE SPECIFIC WORD ON PDF
         public static void Replacer(string current_path, string output_path, Dictionary<int, List<Word_Model>> words)
         {  
+            var temp_path = Path.Combine(Path.GetDirectoryName(current_path), "temp_{Guid.NewGuid()}.pdf");
 
             using var reader = new PdfReader(current_path);
-            using var writer = new PdfWriter(output_path);
+            using var writer = new PdfWriter(temp_path);
 
-            using var pdf_doc = new PdfDocument(reader, writer);
-            foreach (var (page_number, changes) in words)
+            using (var pdf_doc = new PdfDocument(reader, writer))
             {
-                var page = pdf_doc.GetPage(page_number);
-                var canvas = new PdfCanvas(page);
-                foreach (var w in changes)
+                foreach (var (page_number, changes) in words)
                 {
-                    var pos = w.Position;
-                    var font = PdfFontFactory.CreateFont(pos.Font ?? StandardFonts.HELVETICA);
-                    var x = pos.X;
-                    var y = pos.Base_y;
-                    var width = pos.Width;
-                    var height = pos.Height;
-                    var font_size = pos.Font_size;
+                    var page = pdf_doc.GetPage(page_number);
+                    var canvas = new PdfCanvas(page);
+                    foreach (var w in changes)
+                    {
+                        var pos = w.Position;
+                        var font = PdfFontFactory.CreateFont(pos.Font ?? StandardFonts.HELVETICA);
+                        var x = pos.X;
+                        var y = pos.Base_y;
+                        var width = pos.Width;
+                        var height = pos.Height;
+                        var font_size = pos.Font_size;
 
-                    canvas.SetFillColor(ColorConstants.WHITE).Rectangle(x, y - 3, width, height + 4).Fill();
+                        canvas.SetFillColor(ColorConstants.WHITE).Rectangle(x, y - 3, width, height + 4).Fill();
 
-                    canvas.SetFillColor(ColorConstants.BLACK).BeginText().SetFontAndSize(font, font_size).MoveText(x, y).ShowText(w.New_Text).EndText();
+                        canvas.SetFillColor(ColorConstants.BLACK).BeginText().SetFontAndSize(font, font_size).MoveText(x, y).ShowText(w.New_Text).EndText();
+                    }
+                    canvas.Release();
                 }
-                canvas.Release();
             }
+            try
+            {
+                if (File.Exists(output_path)) File.Delete(output_path);
+
+                  File.Move(temp_path, output_path);
+            }
+
+            finally
+            {
+                if (File.Exists(temp_path)) File.Delete(temp_path);
+            }
+            
         } 
     }
 }
