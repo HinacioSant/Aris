@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Aris.Services;
-using System.Diagnostics;
 
 
 namespace Aris

@@ -198,11 +198,9 @@ namespace Aris.Pages
 
         public void Dispose()
         {
-            Debug.WriteLine("Viewer disposing...");
             _pdfViewer.Document?.Dispose();
             _pdfViewer.Document = null;
             _pdfViewer.Dispose();
-            Debug.WriteLine("Viewer disposed");           
         }
         
     }
