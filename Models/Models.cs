@@ -24,4 +24,19 @@ namespace Aris.Models
         protected void OnPropertyChanged([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
     }
+
+    public class Result
+    {
+        public bool Success {get;}
+        public string Error {get;}
+
+        private Result(bool success, string error = null)
+        {
+            Success = success;
+            Error = error;
+        }
+
+        public static Result Ok() => new(true);
+        public static Result Fail(string error) => new(false, error);
+    }
 }

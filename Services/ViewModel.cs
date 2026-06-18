@@ -60,33 +60,47 @@ namespace Aris.Services
         }       
 
 
-        public void LoadPage(int pageNumber)
+        public async Task<Result> LoadPage(int pageNumber)
         {
-            Words.Clear();
-            var path = CurrentPath;
-            using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
-            var page = pigDoc.GetPage(pageNumber);            
-               
-            foreach (var (pos, index) in PdfHandler.Extractor(path, pageNumber).Select((pos, i) => (pos, i)))
-            {
-                var word = new Word_Model
-                {
-                    ID = index,
-                    Position    = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
-                        (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, pos.FontName ?? "Arial", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
-                    New_Text = pos.Text,
-                    Og_Text = pos.Text
-                };
-
-                // listen for changes on each word
-                word.PropertyChanged += (s, e) =>
-                {
-                    if (e.PropertyName == nameof(Word_Model.Is_changed))
-                        RefreshChangedWords();
-                };
+            try
+            {                
+                Words.Clear();
+                var path = CurrentPath;
+                using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
+                var page = pigDoc.GetPage(pageNumber);     
+                var total_pages = pigDoc.NumberOfPages;
+                PageSelection(total_pages, pageNumber);       
                 
-                Words.Add(word);                
-            }            
+                foreach (var (pos, index) in PdfHandler.Extractor(path, pageNumber).Select((pos, i) => (pos, i)))
+                {
+                    var word = new Word_Model
+                    {
+                        ID = index,
+                        Position    = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
+                            (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, pos.FontName ?? "Arial", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
+                        New_Text = pos.Text,
+                        Og_Text = pos.Text
+                    };
+
+                    // listen for changes on each word
+                    word.PropertyChanged += (s, e) =>
+                    {
+                        if (e.PropertyName == nameof(Word_Model.Is_changed))
+                            RefreshChangedWords();
+                    };
+                    
+                    Words.Add(word); 
+
+                } 
+
+                return Result.Ok(); 
+            }
+
+            catch (Exception ex)
+            {
+                return ErrorHandler.Handler(ex, nameof(LoadPage));
+            }
+
         }
 
         public void RefreshChangedWords()

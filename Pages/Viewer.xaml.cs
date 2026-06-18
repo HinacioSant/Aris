@@ -50,42 +50,40 @@ namespace Aris.Pages
 
             PdfHost.Child = _pdfViewer;                    
             _current_path = path;
-            Load_Pdf(path);
+            Loaded += async (s,e) => await Load_Pdf(path);
         }                 
         
 
-        private void Load_Pdf(string path)
+        private async Task Load_Pdf(string path)
         {
             try
             {     
-                _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);
-                _viewModel.CurrentPath = path;
-
-
-                using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
-                var page = pigDoc.GetPage(_page_number);
-
-
-                var total_pages = pigDoc.NumberOfPages;
-                _viewModel.PageSelection(total_pages, _page_number);  
-
-
-                col_0.Width = new GridLength(page.Width);               
-                WordCanvas.Height = page.Height;
-
-
-                _viewModel.LoadPage(_page_number); 
-                Draw_Words();               
-                     
+                _pdfViewer.Document?.Dispose();
+                _pdfViewer.Document = null;
+                _pdfViewer.Document = PdfiumViewer.PdfDocument.Load(path);  
             }
             catch (Exception ex)
             {
-                Sw.MessageBox.Show(ex.Message);
+                var result = ErrorHandler.Handler(ex, nameof(Load_Pdf));                
+                Sw.MessageBox.Show(result.Error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+           
+            _viewModel.CurrentPath = path;
+            var vmResult =  await _viewModel.LoadPage(_page_number);
+            if (!vmResult.Success)
+            {
+                Sw.MessageBox.Show(vmResult.Error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
 
-
-
+            using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
+            var page = pigDoc.GetPage(_page_number);
+            col_0.Width = new GridLength(page.Width);               
+            WordCanvas.Height = page.Height;
+            Draw_Words();
         }
+
         private void Draw_Words()
         {
             WordCanvas.Children.Clear();
@@ -154,33 +152,36 @@ namespace Aris.Pages
                 Canvas.SetLeft(wordBox, pos.X);
                 Canvas.SetTop(wordBox, pos.Y);
                 WordCanvas.Children.Add(wordBox);
-
             }
-
-            
         }
 
 
-        private void Apply_Changes(object sender, RoutedEventArgs e)
+        private async void Apply_Changes(object sender, RoutedEventArgs e)
         {
-            var output_path = PdfChanges.Output_generator(_current_path);  
+            try
+            {                    
+                var output_path = PdfChanges.Output_generator(_current_path);  
+                var changes = _viewModel.ChangesToApply();
+                if (changes.Count == 0)
+                {
+                    Sw.MessageBox.Show("No Changes to apply.");
+                    return;
+                } 
 
-            var changes = _viewModel.ChangesToApply();
-            if (changes.Count == 0)
+                var result = Sw.MessageBox.Show($"Apply {changes.Values.Sum(list => list.Count)} changes", "Confirm", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {     
+                    ReleaseDocument();
+                    PdfHandler.Replacer(_current_path, output_path, changes);
+                    _current_path = output_path;                 
+                    await Load_Pdf(_current_path); 
+                }
+            }
+            catch (Exception ex)
             {
-                Sw.MessageBox.Show("No Changes to apply.");
+                var result = ErrorHandler.Handler(ex, nameof(Apply_Changes));                
+                Sw.MessageBox.Show(result.Error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
-            } 
-
-            var result = Sw.MessageBox.Show($"Apply {changes.Values.Sum(list => list.Count)} changes", "Confirm", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
-            {     
-                _pdfViewer.Document?.Dispose();
-                _pdfViewer.Document = null;
-                PdfHandler.Replacer(_current_path, output_path, changes);
-                _current_path = output_path;                 
-                Load_Pdf(_current_path);   
-
             }
 
         }      
@@ -196,11 +197,17 @@ namespace Aris.Pages
             NavService.GoHome();
         }
 
-        public void Dispose()
+        private void ReleaseDocument()
         {
             _pdfViewer.Document?.Dispose();
             _pdfViewer.Document = null;
+        }
+
+        public void Dispose()
+        {
+            ReleaseDocument();
             _pdfViewer.Dispose();
+            GC.SuppressFinalize(this);
         }
         
     }
