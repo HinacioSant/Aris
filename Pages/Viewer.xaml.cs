@@ -69,18 +69,15 @@ namespace Aris.Pages
                 return;
             }
            
-            _viewModel.CurrentPath = path;
-            var vmResult =  await _viewModel.LoadPage(_page_number);
-            if (!vmResult.Success)
-            {
-                Sw.MessageBox.Show(vmResult.Error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            _viewModel.CurrentPath = path;           
 
             using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
             var page = pigDoc.GetPage(_page_number);
+            var total_pages = pigDoc.NumberOfPages;
+            _viewModel.PageSelection(total_pages, _page_number); 
             col_0.Width = new GridLength(page.Width);               
             WordCanvas.Height = page.Height;
+            
             Draw_Words();
         }
 
@@ -100,16 +97,17 @@ namespace Aris.Pages
                 var fontStyle = pos.Font.Contains("-Italic", StringComparison.OrdinalIgnoreCase) 
                             ? FontStyles.Italic 
                             : FontStyles.Normal;
+
+                var fontSize = pos.Font_size >= 14 ? pos.Font_size * 0.7 : pos.Font_size;
                 
                 var wordBox = new Sw_c.TextBox
                 {
                     Text = word.New_Text,
                     FontFamily = new Sys_media.FontFamily(pos.Font),  
                     FontWeight = fontWeight,
-                    FontStyle = fontStyle,                  
-                    Width = pos.Width + 7,
+                    FontStyle = fontStyle,  
                     Height = pos.Height + 10,
-                    FontSize = pos.Font_size,
+                    FontSize = fontSize,
                     BorderThickness = new Thickness(0),
                     Background = Sys_media_B.Transparent,
                     Foreground = Sys_media_B.Black,

@@ -93,16 +93,17 @@ namespace Aris.Services
                 foreach (var (page_number, changes) in words)
                 {
                     var page = pdf_doc.GetPage(page_number);
-                    var canvas = new PdfCanvas(page);
+                    var canvas = new PdfCanvas(page);                    
                     foreach (var w in changes)
-                    {
+                    {                        
                         var pos = w.Position;
-                        var font = PdfFontFactory.CreateFont(pos.Font ?? StandardFonts.HELVETICA);
+                        var font = PdfChanges.GetFont(pos.Font);
                         var x = pos.X;
                         var y = pos.Base_y;
                         var width = pos.Width;
                         var height = pos.Height;
                         var font_size = pos.Font_size;
+                        Debug.WriteLine(font_size);
 
                         canvas.SetFillColor(ColorConstants.WHITE).Rectangle(x, y - 3, width, height + 4).Fill();
 

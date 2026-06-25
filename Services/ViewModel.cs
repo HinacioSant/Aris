@@ -17,6 +17,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using Aris.Pages;
+using iText.Kernel.Font;
+
 
 namespace Aris.Services
 {   
@@ -69,29 +71,7 @@ namespace Aris.Services
                 using var pigDoc = UglyToad.PdfPig.PdfDocument.Open(path);
                 var page = pigDoc.GetPage(pageNumber);     
                 var total_pages = pigDoc.NumberOfPages;
-                PageSelection(total_pages, pageNumber);       
-                
-                foreach (var (pos, index) in PdfHandler.Extractor(path, pageNumber).Select((pos, i) => (pos, i)))
-                {
-                    var word = new Word_Model
-                    {
-                        ID = index,
-                        Position    = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
-                            (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, pos.FontName ?? "Arial", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
-                        New_Text = pos.Text,
-                        Og_Text = pos.Text
-                    };
-
-                    // listen for changes on each word
-                    word.PropertyChanged += (s, e) =>
-                    {
-                        if (e.PropertyName == nameof(Word_Model.Is_changed))
-                            RefreshChangedWords();
-                    };
-                    
-                    Words.Add(word); 
-
-                } 
+                PageSelection(total_pages, pageNumber); 
 
                 return Result.Ok(); 
             }
@@ -167,11 +147,12 @@ namespace Aris.Services
                
             foreach (var (pos, index) in PdfHandler.Extractor(path, pageNumber).Select((pos, i) => (pos, i)))
             {
+                var cFont = pos.FontName;
                 result.Add( new Word_Model
                 {
                     ID = index,
                     Position  = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
-                        (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, pos.FontName ?? "Arial", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
+                        (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, cFont ?? "Helvetica", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
                     New_Text = pos.Text,
                     Og_Text = pos.Text
                 });
@@ -194,7 +175,6 @@ namespace Aris.Services
                 Words.Add(word);   
             }
         }
-        
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
