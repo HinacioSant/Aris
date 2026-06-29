@@ -57,6 +57,7 @@ namespace Aris.Services
 
             foreach (var w in words)
             {
+                // Debug.WriteLine($"Word: '{w.Text}' | Letters: {string.Join(", ", w.Letters.Select(l => $"'{l.Value}'"))}");
                 int overlapIndex = result.FindIndex(accepted => CheckBoxOverlap(accepted.BoundingBox, w.BoundingBox)); 
                 
                 if (overlapIndex >= 0) 
@@ -97,13 +98,12 @@ namespace Aris.Services
                     foreach (var w in changes)
                     {                        
                         var pos = w.Position;
-                        var font = PdfChanges.GetFont(pos.Font);
+                        var font = GetFont.LoadFont(pos.Font);
                         var x = pos.X;
                         var y = pos.Base_y;
                         var width = pos.Width;
                         var height = pos.Height;
-                        var font_size = pos.Font_size;
-                        Debug.WriteLine(font_size);
+                        var font_size = pos.Font_size;                        
 
                         canvas.SetFillColor(ColorConstants.WHITE).Rectangle(x, y - 3, width, height + 4).Fill();
 

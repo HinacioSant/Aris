@@ -1,6 +1,7 @@
 using Aris.Models;
 using Aris.Pages;
 using iText.IO.Font.Constants;
+using iText.IO.Font;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using System.Diagnostics;
@@ -32,14 +33,14 @@ namespace Aris.Services
             var iFont = plusIndex >= 0 ? rawFont[(plusIndex + 1) ..] : rawFont;           
             try
             {
-                var font = PdfFontFactory.CreateFont(iFont);
+                var font = PdfFontFactory.CreateFont(iFont, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
                 Debug.WriteLine($"font created OK: {font.GetFontProgram()?.GetFontNames()?.GetFontName()}"); 
                 return font;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"FAILED: {ex.Message}");
-                return PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+                return PdfFontFactory.CreateFont(StandardFonts.HELVETICA, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
             }
         }
     }
