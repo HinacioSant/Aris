@@ -26,23 +26,6 @@ namespace Aris.Services
 
             return Path.Combine(directory, Edited_Prefix + filename);
         }   
-
-    public static PdfFont GetFont (string rawFont)
-        {
-            int plusIndex = rawFont.IndexOf('+');
-            var iFont = plusIndex >= 0 ? rawFont[(plusIndex + 1) ..] : rawFont;           
-            try
-            {
-                var font = PdfFontFactory.CreateFont(iFont, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
-                Debug.WriteLine($"font created OK: {font.GetFontProgram()?.GetFontNames()?.GetFontName()}"); 
-                return font;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"FAILED: {ex.Message}");
-                return PdfFontFactory.CreateFont(StandardFonts.HELVETICA, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
-            }
-        }
     }
 }
 
