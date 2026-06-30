@@ -3,6 +3,9 @@ using System.IO;
 using iText.Kernel.Font;
 using iText.IO.Font.Constants;
 using iText.IO.Font;
+using System.Text.Json;
+using iText.StyledXmlParser.Jsoup.Internal;
+using System.Text.RegularExpressions;
 
 namespace Aris.Services
 {
@@ -14,25 +17,37 @@ namespace Aris.Services
             "Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic",
             "Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique",
             "Symbol", "ZapfDingbats"
-        };      
+        };   
+
+        private static Dictionary<string, string>? _manifest;
+
+        private static readonly string FontDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts"); 
+
+        private static void LoadManifest()
+        {
+            var path = Path.Combine(FontDir, "manifest.json");
+            _manifest = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
+        }
+
+        private static string Normalize(string s) => Regex.Replace(s, @"[^a-zA-Z0-9]", "").ToLowerInvariant();
+        static string StripSize(string s) => Regex.Replace(s, @"\d+pt", "", RegexOptions.IgnoreCase);
+
+
+        private static string? SeachLocalFont(string FontName)
+        {
+            LoadManifest();
+            var key = Normalize(StripSize(FontName));
+            var match = _manifest.FirstOrDefault(kvp => Normalize(StripSize(kvp.Key)) == key);
+
+            return match.Value != null ? Path.Combine(FontDir, match.Value) : null;
+        }
+
         private static (string FontName, bool IsBuiltIn) RawFontNameHandler(string rawFont)
         {
             int plusIndex = rawFont.IndexOf('+');
             var fontName = plusIndex >= 0 ? rawFont[(plusIndex + 1) ..] : rawFont;            
             bool isBuiltIn = Standard14.Contains(fontName);
             return (fontName, isBuiltIn);       
-        }
-
-        private static string? FindLocalFont(string FontName)
-        {
-            var FontDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts");            
-            var exact = Path.Combine(FontDir, FontName + ".ttf");
-
-            if (File.Exists(exact)) return exact;
-
-            var candidate = Directory.EnumerateFiles(FontDir, "*.ttf").FirstOrDefault(f => Path.GetFileNameWithoutExtension(f).Contains(FontName, StringComparison.OrdinalIgnoreCase));
-                                 
-            return candidate;         
         }
 
         public static PdfFont LoadFont(string rawFont)
@@ -42,10 +57,10 @@ namespace Aris.Services
             if (isBuiltIn)
             {
                 return PdfFontFactory.CreateFont(FontName, PdfEncodings.WINANSI, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
-            }
+            }   
 
-            var path = FindLocalFont(FontName);
-
+            var path = SeachLocalFont(FontName); 
+            
             try
             {
                 var font = PdfFontFactory.CreateFont(path, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED);
@@ -54,7 +69,7 @@ namespace Aris.Services
             }          
             catch (Exception ex)
             {
-                Debug.WriteLine($"FAILED: {ex.Message} Path:{path}");
+                Debug.WriteLine($"FAILED: {ex.Message} Path:{path} FontName:{FontName}");
                 return PdfFontFactory.CreateFont(StandardFonts.HELVETICA, PdfEncodings.WINANSI, PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);              
             }
         }
