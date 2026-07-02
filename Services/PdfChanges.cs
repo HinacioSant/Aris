@@ -1,13 +1,4 @@
-using Aris.Models;
-using Aris.Pages;
-using iText.IO.Font.Constants;
-using iText.IO.Font;
-using iText.Kernel.Font;
-using iText.Kernel.Pdf;
-using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows;
 
 
 namespace Aris.Services

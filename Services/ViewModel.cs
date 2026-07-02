@@ -1,23 +1,7 @@
-using Sw = System.Windows;
-using Sw_c = System.Windows.Controls;
-using Sys_media = System.Windows.Media;
-using Sys_shapes = System.Windows.Shapes;
-using Sys_media_B = System.Windows.Media.Brushes;
-using System.Windows.Controls;
-using PdfiumViewer;
-using System.Windows.Forms.Integration;
-using System.Windows;
-using iText.Layout.Element;
-using System.Windows.Documents;
-using UglyToad.PdfPig.Content;
-using System.IO;
 using Aris.Models;
-using Aris.Services;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-using Aris.Pages;
-using iText.Kernel.Font;
 
 
 namespace Aris.Services
@@ -152,7 +136,7 @@ namespace Aris.Services
                 {
                     ID = index,
                     Position  = new Word_data(pos.Text, (float)pos.BoundingBox.Left, (float)(page.Height - pos.BoundingBox.Bottom), 
-                        (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, cFont ?? "Helvetica", (float)pos.Letters[0].FontSize, (float)pos.BoundingBox.Bottom),                   
+                        (float)pos.BoundingBox.Width, (float)pos.BoundingBox.Height, cFont ?? "Helvetica", (float)pos.Letters[0].PointSize, (float)pos.BoundingBox.Bottom),                   
                     New_Text = pos.Text,
                     Og_Text = pos.Text
                 });

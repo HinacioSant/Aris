@@ -4,7 +4,6 @@ using iText.Kernel.Font;
 using iText.IO.Font.Constants;
 using iText.IO.Font;
 using System.Text.Json;
-using iText.StyledXmlParser.Jsoup.Internal;
 using System.Text.RegularExpressions;
 
 namespace Aris.Services

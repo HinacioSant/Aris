@@ -1,16 +1,11 @@
 using Ut = UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
 using UglyToad.PdfPig.DocumentLayoutAnalysis.WordExtractor;
-using iText.Kernel.Pdf; 
+using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Colors;
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
-using Aris.Pages;
 using Aris.Models;
-using Sw_c = System.Windows.Controls;
 using System.IO;
-using System.Diagnostics;
 
 
 namespace Aris.Services
@@ -32,7 +27,7 @@ namespace Aris.Services
 
                     // Don't merge letters from different rendering passes
                     // A large gap in TextSequence means they were drawn separately
-                    if (Math.Abs(pivot.TextSequence - candidate.TextSequence) > 6) return false;                        
+                    if (Math.Abs(pivot.TextSequence - candidate.TextSequence) > 1) return false;                        
 
                     // Don't merge letters with very different font sizes
                     var maxSize = Math.Max(pivot.PointSize, candidate.PointSize);
@@ -42,10 +37,14 @@ namespace Aris.Services
                     return true;
                 }
             };
+            var letters = page.Letters.GroupBy(l => $"{Math.Round(l.BoundingBox.Left, 0)} , {Math.Round(l.BoundingBox.Bottom, 0)}")
+            .Select(g => g.OrderByDescending(l => l.TextSequence).First()).ToList();           
+            var words = new NearestNeighbourWordExtractor(options).GetWords(letters).Where(w => !string.IsNullOrWhiteSpace(w.Text)).ToList();           
 
             var extraction = new NearestNeighbourWordExtractor(options);
             var ex  = page.GetWords(extraction).Where(w => !string.IsNullOrWhiteSpace(w.Text));
-            var dupliEx = DuplicationHandler([.. ex]);
+            var dupliEx = DuplicationHandler(words);
+
 
             return dupliEx;
             
@@ -57,14 +56,20 @@ namespace Aris.Services
 
             foreach (var w in words)
             {
-                // Debug.WriteLine($"Word: '{w.Text}' | Letters: {string.Join(", ", w.Letters.Select(l => $"'{l.Value}'"))}");
                 int overlapIndex = result.FindIndex(accepted => CheckBoxOverlap(accepted.BoundingBox, w.BoundingBox)); 
                 
                 if (overlapIndex >= 0) 
                 {
                     result[overlapIndex] = w;
-                }
-                else result.Add(w);
+                    continue;                    
+                }               
+
+                bool isFragment = result.Any(accepted => XrangeOverlap(accepted.BoundingBox, w.BoundingBox) 
+                && w.Letters.Max(l => l.TextSequence) < accepted.Letters.Max(l => l.TextSequence));
+
+                if (!isFragment){ 
+                    result.Add(w);
+                    }
             }
 
             return result;
@@ -79,6 +84,25 @@ namespace Aris.Services
             if (internalTop > internalBottom)
                 return Math.Abs(rect_a.Left - rect_b.Left) <= threshold;
             else return false;
+        }
+
+        private static bool XrangeOverlap (Ut.Core.PdfRectangle rect_a, Ut.Core.PdfRectangle rect_b, double threshold = 5.0)
+        {
+            var ra = rect_a;
+            var rb = rect_b;
+
+            // Check vertical overlap — same line means their Y ranges intersect
+            double interBottom = Math.Max(ra.Bottom, rb.Bottom);
+            double interTop    = Math.Min(ra.Top, rb.Top);
+
+            if (interTop > interBottom){ // They share vertical space
+                double aRight = rect_a.Left + rect_a.Width;
+                double bRight = rect_b.Left + rect_b.Width;
+
+                return rect_b.Left <= aRight + threshold && bRight >= rect_a.Left + threshold;
+            }
+            else return false;
+
         }
 
         // REPLACE EVERY WORD ON CHANGE LIST ON PDF

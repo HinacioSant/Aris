@@ -1,21 +1,12 @@
 using Sw = System.Windows;
 using Sw_c = System.Windows.Controls;
 using Sys_media = System.Windows.Media;
-using Sys_shapes = System.Windows.Shapes;
 using Sys_media_B = System.Windows.Media.Brushes;
 using System.Windows.Controls;
-using PdfiumViewer;
-using System.Windows.Forms.Integration;
 using System.Windows;
-using iText.Layout.Element;
-using System.Windows.Documents;
-using UglyToad.PdfPig.Content;
-using System.IO;
 using Aris.Models;
 using Aris.Services;
-using System.ComponentModel;
 using System.Windows.Data;
-using System.Diagnostics;
 
 
 
@@ -97,8 +88,8 @@ namespace Aris.Pages
                 var fontStyle = pos.Font.Contains("-Italic", StringComparison.OrdinalIgnoreCase) 
                             ? FontStyles.Italic 
                             : FontStyles.Normal;
-
-                var fontSize = pos.Font_size >= 14 ? pos.Font_size * 0.7 : pos.Font_size;
+               
+               var fontSize = pos.Font_size;
                 
                 var wordBox = new Sw_c.TextBox
                 {
