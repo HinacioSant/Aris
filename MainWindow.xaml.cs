@@ -27,19 +27,17 @@ namespace Aris
 
         private void OpenViewer(string filepath)
         {
-            if (Page_content.Content is Pages.Viewer existingViewer) existingViewer.Dispose();
-            Page_content.Content = new Pages.Viewer(filepath);
+            NavService.SetContent(Page_content, new Pages.Viewer(filepath));
         }
 
         private void GoHome()
         {
-            if (Page_content.Content is Pages.Viewer existingViewer) existingViewer.Dispose();
-            Page_content.Content = new Pages.Home();
+           NavService.SetContent(Page_content, new Pages.Home());
         }
 
         public void Nav_Viewer(string path)
         {
-            Page_content.Content = new Pages.Viewer(path);
+            NavService.SetContent(Page_content, new Pages.Viewer(path));           
         }
     }
 }

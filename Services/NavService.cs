@@ -1,4 +1,6 @@
 
+using System.Windows.Controls;
+
 namespace Aris.Services
 {   
     public static class NavService
@@ -14,6 +16,13 @@ namespace Aris.Services
         public static void GoHome()
         {
             On_GoHome?.Invoke();
+        }
+
+        public static void SetContent(ContentControl host, object newContent)
+        {
+            if (host.Content is IDisposable disposable) disposable.Dispose();
+
+            host.Content = newContent;
         }
     }
 }
