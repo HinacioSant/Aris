@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
 using Aris.Models;
 
 namespace Aris.Services
@@ -15,6 +16,7 @@ namespace Aris.Services
                 FileNotFoundException => "File could not be found!. It may have been moved or deleted.",
                 UnauthorizedAccessException => "Aris do not have permission to access to this file.",
                 IOException => "This file is already in another process. Close it and try again.",
+                JsonException => "Json exception found, file may not exist or is corrupted",
                 _ => "An unexpected error occurred. Please try again."
             };
 

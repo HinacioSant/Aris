@@ -108,7 +108,7 @@ namespace Aris.Services
         // REPLACE EVERY WORD ON CHANGE LIST ON PDF
         public static void Replacer(string current_path, string output_path, Dictionary<int, List<Word_Model>> words)
         {  
-            var temp_path = Path.Combine(Path.GetDirectoryName(current_path), "temp_{Guid.NewGuid()}.pdf");
+            var temp_path = Path.Combine(Path.GetDirectoryName(current_path), $"temp_{Guid.NewGuid()}.pdf");
 
             using var reader = new PdfReader(current_path);
             using var writer = new PdfWriter(temp_path);

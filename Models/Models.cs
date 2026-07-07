@@ -5,6 +5,8 @@ namespace Aris.Models
 {
     public record Word_data(string Text, float X, float Y, float Width, float Height, string Font, float Font_size, float Base_y);
 
+    public readonly record struct PageSize(double Width, double Height, bool IsMaximized);
+
     public class Word_Model : INotifyPropertyChanged    
     {    
         public int ID {get; set;}

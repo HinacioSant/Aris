@@ -1,14 +1,17 @@
 using Sw = System.Windows;
 using Mwin = Microsoft.Win32;
 using Aris.Services;
+using System.Windows;
 
 
 
 
 namespace Aris.Pages
 {
-    public partial class Home
+    public partial class Home : IPageSizing
     {
+        public double PreferredWidth  => 390;
+        public double PreferredHeight => 195;
         public Home()
         {
             InitializeComponent();            

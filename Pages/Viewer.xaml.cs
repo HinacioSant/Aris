@@ -12,8 +12,12 @@ using System.Windows.Data;
 
 namespace Aris.Pages
 {
-    public partial class Viewer : Sw_c.UserControl, IDisposable
+    public partial class Viewer : Sw_c.UserControl, IDisposable, IPageSizing
     {
+
+        public double PreferredWidth  => SystemParameters.PrimaryScreenWidth  * 0.7;
+        public double PreferredHeight => SystemParameters.PrimaryScreenHeight * 0.9;
+        
         private PdfiumViewer.PdfViewer _pdfViewer;
         public string _current_path;
         private int _page_number = 1;              
