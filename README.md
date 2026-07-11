@@ -6,7 +6,7 @@ _-Intended overall fix for the future-_
 
 # Fonts -
 
-Aris use the Standard 14 as base fonts. To use fonts outside of that you should add custom fonts.
+Aris use the **Standard 14** as base fonts. To use fonts outside of that you should add custom fonts.
 
 Custom Fonts should be added to manifest for FontHandler.
 
