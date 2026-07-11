@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:Aris"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="Themes/Colors.xaml"/>
+            <ResourceDictionary Source="Themes/Brushes.xaml"/>
+            <ResourceDictionary Source="Themes/Controls/Button.xaml"/>
+            <ResourceDictionary Source="Themes/Controls/Window.xaml"/>
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</Application.Resources>
 </Application>

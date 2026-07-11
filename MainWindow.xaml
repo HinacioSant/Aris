@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Aris"
         mc:Ignorable="d"
         Title="Aris"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Style="{StaticResource WindowStyle}">
         
     <Grid>
         <ContentControl x:Name="Page_content"/>       

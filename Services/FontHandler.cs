@@ -5,6 +5,7 @@ using iText.IO.Font.Constants;
 using iText.IO.Font;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Sys_media = System.Windows.Media;
 
 namespace Aris.Services
 {
@@ -49,7 +50,36 @@ namespace Aris.Services
             return (fontName, isBuiltIn);       
         }
 
-        public static PdfFont LoadFont(string rawFont)
+        public static Sys_media.FontFamily? GetTextBlockFont(string rawFont) // Font builder for front end WordBox
+        {
+            var (font, isBuiltIn) = RawFontNameHandler(rawFont);
+
+            var DefaultFont = new Sys_media.FontFamily("Helvetica");
+
+            if (isBuiltIn) return DefaultFont;
+
+            try
+            {
+                var path = SeachLocalFont(font);
+                if (path == null) return DefaultFont;
+
+                Uri fileUri = new Uri(path, UriKind.Absolute);
+                var families = Sys_media.Fonts.GetFontFamilies(fileUri);
+                Sys_media.FontFamily fontFamily = families.FirstOrDefault();
+
+                return fontFamily;
+            }
+            catch (Exception ex)
+            {  
+                Debug.WriteLine($"FAILED: {ex.Message} isBuiltIn:{isBuiltIn} FontName:{font}");              
+                return DefaultFont;              
+            }
+
+          
+            
+        }
+
+        public static PdfFont LoadFont(string rawFont) // Font builder for back end editing 
         {
             var (FontName, isBuiltIn) = RawFontNameHandler(rawFont);
 

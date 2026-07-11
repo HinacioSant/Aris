@@ -7,6 +7,7 @@ using System.Windows;
 using Aris.Models;
 using Aris.Services;
 using System.Windows.Data;
+using System.Diagnostics;
 
 
 
@@ -39,7 +40,7 @@ namespace Aris.Pages
             _pdfViewer = new PdfiumViewer.PdfViewer
             {
                 Dock = System.Windows.Forms.DockStyle.Fill,
-                ShowToolbar = true,
+                ShowToolbar = false,
                 ShowBookmarks = false  
             };  
 
@@ -73,13 +74,12 @@ namespace Aris.Pages
             col_0.Width = new GridLength(page.Width);               
             WordCanvas.Height = page.Height;
             
-            Draw_Words();
         }
 
         private void Draw_Words()
         {
             WordCanvas.Children.Clear();
-            _viewModel.RefreshChangedWords();
+            _viewModel.RefreshChangedWords();          
 
             foreach (var word in _viewModel.Words)
             {   
@@ -98,17 +98,16 @@ namespace Aris.Pages
                 var wordBox = new Sw_c.TextBox
                 {
                     Text = word.New_Text,
-                    FontFamily = new Sys_media.FontFamily(pos.Font),  
+                    FontFamily = GetFont.GetTextBlockFont(pos.Font),  
                     FontWeight = fontWeight,
                     FontStyle = fontStyle,  
                     Height = pos.Height + 10,
                     FontSize = fontSize,
-                    BorderThickness = new Thickness(0),
-                    Background = Sys_media_B.Transparent,
-                    Foreground = Sys_media_B.Black,
+                    BorderThickness = new Thickness(0),                                        
                     Padding = new Thickness(0),                   
                     IsReadOnly = true,
-                    Cursor = Sw.Input.Cursors.Hand
+                    Cursor = Sw.Input.Cursors.Hand,
+                    DataContext = word
                 };
                 
                 var binding = new Sw.Data.Binding("New_Text")
@@ -121,27 +120,16 @@ namespace Aris.Pages
 
                 wordBox.PreviewMouseDown += (s,e) =>
                     {
-                        wordBox.IsReadOnly = false;
-                        wordBox.Background = Sys_media_B.LightYellow;
+                        wordBox.IsReadOnly = false;                                              
                         wordBox.Focus();  
                     };
 
                 wordBox.LostFocus += (s,e) =>
                     {   
-                        wordBox.IsReadOnly = true;   
-                        wordBox.Background = Sys_media_B.Transparent;                        
-                        if (word.Is_changed)
-                        {
-                            wordBox.Background = Sys_media_B.LightGreen;                            
-                        }                                             
+                        wordBox.IsReadOnly = true;                               
                     };
 
-                word.PropertyChanged += (s, e) =>
-                {
-                    if (e.PropertyName == nameof(Word_Model.Is_changed)) wordBox.Background = word.Is_changed ? Sys_media_B.LightGreen : Sys_media_B.Transparent; 
-                };
-               
-
+             
                 Canvas.SetLeft(wordBox, pos.X);
                 Canvas.SetTop(wordBox, pos.Y);
                 WordCanvas.Children.Add(wordBox);

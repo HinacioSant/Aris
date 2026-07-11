@@ -18,6 +18,7 @@
     <None Update="Fonts\**\*.*">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Fonts\**\*.ttf" />
   </ItemGroup>
   
 </Project>
