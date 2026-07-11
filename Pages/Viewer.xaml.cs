@@ -1,13 +1,10 @@
 using Sw = System.Windows;
 using Sw_c = System.Windows.Controls;
-using Sys_media = System.Windows.Media;
-using Sys_media_B = System.Windows.Media.Brushes;
 using System.Windows.Controls;
 using System.Windows;
 using Aris.Models;
 using Aris.Services;
 using System.Windows.Data;
-using System.Diagnostics;
 
 
 
