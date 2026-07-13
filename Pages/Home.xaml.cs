@@ -1,10 +1,8 @@
-using Sw = System.Windows;
 using Mwin = Microsoft.Win32;
 using Aris.Services;
 using System.Windows;
 using Aris.Helpers;
 using System.Windows.Input;
-using System.Diagnostics;
 
 
 
@@ -12,7 +10,7 @@ using System.Diagnostics;
 namespace Aris.Pages
 {
     public partial class Home : IPageSizing
-    {
+    {       
         public double PreferredWidth  => 390;
         public double PreferredHeight => 195;
         public Home()
@@ -20,7 +18,7 @@ namespace Aris.Pages
             InitializeComponent(); 
             Animation();            
         }
-        
+
         private void Page_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {  
             if (e.Key == Key.Enter)
@@ -45,8 +43,8 @@ namespace Aris.Pages
         }
         
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-           this.Focus();
+        {           
+            this.Focus();
         }
               
 
