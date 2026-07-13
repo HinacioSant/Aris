@@ -3,6 +3,8 @@ using Mwin = Microsoft.Win32;
 using Aris.Services;
 using System.Windows;
 using Aris.Helpers;
+using System.Windows.Input;
+using System.Diagnostics;
 
 
 
@@ -16,10 +18,18 @@ namespace Aris.Pages
         public Home()
         {
             InitializeComponent(); 
-            Animation();
+            Animation();            
         }
         
-        private void Open_file (object sender, Sw.RoutedEventArgs e)
+        private void Page_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {  
+            if (e.Key == Key.Enter)
+            {
+                Open_file();                
+            }
+        }
+          
+        private static void Open_file ()
         {
             var dialog = new Mwin.OpenFileDialog
             {
@@ -33,6 +43,12 @@ namespace Aris.Pages
             }
             
         }
+        
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+           this.Focus();
+        }
+              
 
         private void Animation()
         {
