@@ -1,0 +1,30 @@
+<!-- Themes/Controls/Window.xaml -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>   
+
+        <Style.Triggers>           
+            <!-- Background color if editing the word -->
+
+            <Trigger Property="IsReadOnly" Value="False">
+                <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
+            </Trigger>
+
+                <!-- Base background of WordBox -->
+
+            <Trigger Property="IsReadOnly" Value="True">                               
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+
+            <!-- Background color change if a word is changed -->
+
+            <DataTrigger Binding="{Binding Is_changed}" Value="True">
+                <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+</ResourceDictionary>

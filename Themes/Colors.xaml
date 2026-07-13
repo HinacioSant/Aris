@@ -3,7 +3,7 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Backgrounds: layer from darkest to lightest -->
-    <Color x:Key="Bg0">#1E1E1E</Color>   <!-- app chrome / outermost -->
+    <Color x:Key="Bg0">#000000</Color>   <!-- app chrome / outermost -->
     <Color x:Key="Bg1">#252526</Color>   <!-- panels, sidebars -->
     <Color x:Key="Bg2">#2D2D30</Color>   <!-- cards, toolbars -->
     <Color x:Key="Bg3">#3E3E42</Color>   <!-- input fields, hover surfaces -->
@@ -13,7 +13,7 @@
     <Color x:Key="BorderStrong">#5A5A5D</Color>
 
     <!-- Text -->
-    <Color x:Key="TextPrimary">#F1F1F1</Color>
+    <Color x:Key="TextPrimary">#39FF14</Color>
     <Color x:Key="TextSecondary">#B0B0B0</Color>
     <Color x:Key="TextDisabled">#6A6A6A</Color>
 

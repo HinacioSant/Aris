@@ -8,8 +8,10 @@
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="Themes/Colors.xaml"/>
             <ResourceDictionary Source="Themes/Brushes.xaml"/>
+            <ResourceDictionary Source="Themes/Fonts.xaml"/>
             <ResourceDictionary Source="Themes/Controls/Button.xaml"/>
             <ResourceDictionary Source="Themes/Controls/Window.xaml"/>
+            <ResourceDictionary Source="Themes/Controls/TextBox.xaml"/>
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 </Application.Resources>
