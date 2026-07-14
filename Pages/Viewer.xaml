@@ -6,13 +6,19 @@
         xmlns:wf="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"   
         xmlns:vm="clr-namespace:Aris.Services"    
         mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/> 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Viewer.Styles.xaml" /> <!-- Page Styles -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+   
      <UserControl.DataContext>
         <vm:ViewerViewModel/>   <!-- ViewModel attached here -->
     </UserControl.DataContext>   
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-    </UserControl.Resources>    
-
+    
     <Grid>
          <Grid.RowDefinitions>
             <RowDefinition Height="40"/>  <!-- toolbar -->
@@ -20,10 +26,10 @@
         </Grid.RowDefinitions>
 
         <!-- Row 0 -->
-        <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+        <Border x:Name="BorderGrid" Grid.Row="0" Style="{StaticResource BorderGridStyle}">
             <Grid>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <Button Content="← Back" Click="Go_back" Width="80" Margin="5"/>
+                    <Button Content="&lt;" Click="Go_back" Style="{StaticResource GoBackButtonStyle}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">            
@@ -66,7 +72,7 @@
 
             <!-- Column 1 -->
 
-            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Left" Background="Black"/>             
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Style="{StaticResource SpliterStyle}"/>             
                 <!-- Canvas on top -->
             
             <!-- Column 2 Word Canvas -->

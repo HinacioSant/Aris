@@ -5,25 +5,25 @@
         <ResourceDictionary Source="Colors.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="Bg0Brush" Color="{StaticResource Bg0}"/>
-    <SolidColorBrush x:Key="Bg1Brush" Color="{StaticResource Bg1}"/>
+    <SolidColorBrush x:Key="Bg0Brush" Color="{StaticResource Bg0}"/> <!-- Black bg [Main Color] -->
+    <SolidColorBrush x:Key="Bg1Brush" Color="{StaticResource Bg1}"/> <!-- Variation as it goes -->
     <SolidColorBrush x:Key="Bg2Brush" Color="{StaticResource Bg2}"/>
     <SolidColorBrush x:Key="Bg3Brush" Color="{StaticResource Bg3}"/>
 
-    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtle}"/>
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtle}"/> <!-- Grey -->
     <SolidColorBrush x:Key="BorderStrongBrush" Color="{StaticResource BorderStrong}"/>
 
-    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}"/> <!-- Green -->
     <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/>
     <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource TextDisabled}"/>
 
-    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}"/> <!-- Hover Green -->
     <SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentHover}"/>
     <SolidColorBrush x:Key="AccentPressedBrush" Color="{StaticResource AccentPressed}"/>
 
-    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource Success}"/>
-    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource Warning}"/>
-    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource Error}"/>
-    <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource Info}"/>
+    <SolidColorBrush x:Key="TealBrush" Color="{StaticResource TealBase}"/>
+    <SolidColorBrush x:Key="YellowBrush" Color="{StaticResource YellowBase}"/>
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedBase}"/>
+    <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueBase}"/>
 
 </ResourceDictionary>

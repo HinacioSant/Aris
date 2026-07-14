@@ -9,7 +9,8 @@
             <!-- Background color if editing the word -->
 
             <Trigger Property="IsReadOnly" Value="False">
-                <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
+                <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource Bg0Brush}"/>
             </Trigger>
 
                 <!-- Base background of WordBox -->
@@ -21,7 +22,7 @@
             <!-- Background color change if a word is changed -->
 
             <DataTrigger Binding="{Binding Is_changed}" Value="True">
-                <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+                <Setter Property="Background" Value="{StaticResource TextDisabledBrush}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

@@ -1,0 +1,44 @@
+<!-- Viewer Styles -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+<Style x:Key="BorderGridStyle" TargetType="Border">
+    <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+</Style>
+
+<Style x:Key="SpliterStyle" TargetType="GridSplitter">
+    <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
+    <Setter Property="Width" Value="1" />
+</Style>
+
+<Style TargetType="Button" x:Key="GoBackButtonStyle" >    
+    <Setter Property="Background" Value="{StaticResource Bg0Brush}"/>   
+    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>  
+    <Setter Property="Width" Value="30"/>   
+    <Setter Property="Margin" Value="5"/>
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="FontWeight" Value="Bold"/> 
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="Button">
+                <Border x:Name="Bd">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource AccentBrush}"/>
+                        <Setter Property="Foreground" Value="{StaticResource Bg0Brush}"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource TextDisabledBrush}"/>
+                        <Setter Property="Foreground" Value="{StaticResource Bg0Brush}"/>
+                    </Trigger>                    
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>   
+    </Setter>
+</Style>
+
+
+</ResourceDictionary>
