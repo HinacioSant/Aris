@@ -12,10 +12,10 @@
     <Setter Property="Width" Value="1" />
 </Style>
 
-<Style TargetType="Button" x:Key="GoBackButtonStyle" >    
+<Style TargetType="Button" >    
     <Setter Property="Background" Value="{StaticResource Bg0Brush}"/>   
-    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>  
-    <Setter Property="Width" Value="30"/>   
+    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/> 
+    <Setter Property="Width" Value="50" />
     <Setter Property="Margin" Value="5"/>
     <Setter Property="FontSize" Value="12"/>
     <Setter Property="FontWeight" Value="Bold"/> 
@@ -40,5 +40,79 @@
     </Setter>
 </Style>
 
+
+<Style x:Key="ApplyButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">    
+    <Setter Property="Width" Value="120" />
+    <Setter Property="Height" Value="20" />
+    <Setter Property="HorizontalAlignment" Value="Center"/>
+    <Setter Property="FontSize" Value="8"/>
+    <Setter Property="Margin" Value="5"/> 
+</Style>
+
+
+<Style x:Key="UndoButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">    
+    <Setter Property="Height" Value="20" />
+    <Setter Property="HorizontalAlignment" Value="Center"/>
+    <Setter Property="FontSize" Value="8"/>
+    <Setter Property="Margin" Value="5"/> 
+</Style>
+
+<Style x:Key="OgTextStyle" TargetType="TextBlock" >    
+    <Setter Property="Foreground" Value="Red" />
+    <Setter Property="TextDecorations" Value="Strikethrough" />   
+    <Setter Property="Margin" Value="0,0,8,0"/> 
+</Style>
+
+<Style x:Key="NewTextStyle" TargetType="TextBlock" >    
+    <Setter Property="Foreground" Value="Green" />    
+</Style>
+
+<Style x:Key="CordTextStyle" TargetType="TextBlock" >    
+    <Setter Property="Foreground" Value="Gray" />
+    <Setter Property="Margin" Value="0,0,0,0"/> 
+</Style>
+
+<Style x:Key="ChangesPanelStyle" TargetType="StackPanel" >  
+    <Setter Property="TextElement.FontSize" Value="8" />
+    <Setter Property="Opacity" Value="0.95" />
+    <Setter Property="Panel.ZIndex" Value="1" />   
+    <Setter Property="HorizontalAlignment" Value="Right"/> 
+    <Setter Property="Margin" Value="20"/>     
+</Style>
+
+<Style TargetType="ListView">
+    <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Bg2Brush}" />
+    <Setter Property="Margin" Value="10" />    
+</Style>
+
+    
+<Style x:Key="ChangesListItemStyle" TargetType="ListViewItem">
+    <Setter Property="Background" Value="{StaticResource Bg2Brush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="4" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ListViewItem">
+                <Border x:Name="RowBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}">
+                    <ContentPresenter />
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource AccentBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource AccentBrush}" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
 
 </ResourceDictionary>

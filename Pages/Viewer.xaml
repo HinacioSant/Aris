@@ -29,7 +29,7 @@
         <Border x:Name="BorderGrid" Grid.Row="0" Style="{StaticResource BorderGridStyle}">
             <Grid>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <Button Content="&lt;" Click="Go_back" Style="{StaticResource GoBackButtonStyle}"/>
+                    <Button Content="&lt;" Click="Go_back" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">            
@@ -84,26 +84,26 @@
             <!-- Column 2 Changes Panel -->
 
             <Border Grid.Column="2" x:Name="ChangesBorder" HorizontalAlignment="Right" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" 
-                    Panel.ZIndex="1" BorderBrush="Black" BorderThickness="1,0,1,0" Background="WhiteSmoke">
+                    Panel.ZIndex="1" >
 
-                <StackPanel Grid.Column="2" x:Name="ChangesPanel" Background="WhiteSmoke" HorizontalAlignment="Right" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}"  Opacity="0.95" Panel.ZIndex="1">
-                <TextBlock Text="{Binding PendingLabel}" Foreground="Red" />                
+                <StackPanel Grid.Column="2" x:Name="ChangesPanel" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ChangesPanelStyle}">
+                <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center"/>                
 
-                    <ListView x:Name="ChangesList" Margin="10" ItemsSource="{Binding ChangedWords}">
+                    <ListView x:Name="ChangesList" ItemsSource="{Binding ChangedWords}" ItemContainerStyle="{StaticResource ChangesListItemStyle}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid  MinHeight="30">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>   <!-- change info -->
-                                        <ColumnDefinition Width="60"/>  <!-- undo button -->
+                                        <ColumnDefinition Width="Auto"/>  <!-- undo button -->
                                     </Grid.ColumnDefinitions>
                                     
-                                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Og_Text}" Foreground="Red" TextDecorations="Strikethrough" Margin="0,0,8,0"/>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Og_Text}" Style="{StaticResource OgTextStyle}"/>
                                     <TextBlock Text="→" Margin="0,0,8,0"/>
-                                    <TextBlock Text="{Binding New_Text}" Foreground="Green"/>
+                                    <TextBlock Text="{Binding New_Text}" Style="{StaticResource NewTextStyle}"/>
 
-                                    <TextBlock Foreground="Gray" Margin="0,0,0,0" FontSize="10">
+                                    <TextBlock Style="{StaticResource CordTextStyle}">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="(X:{0:F0}-Y:{1:F0})">
                                                 <Binding Path="Position.X"/>
@@ -115,13 +115,13 @@
 
                                 </StackPanel>
 
-                                <Button Grid.Column="1" Content="Undo" HorizontalAlignment="Right" Tag="{Binding}" Click="Undo_Click" Width="50" Height="22"/>
+                                <Button Grid.Column="1" Content="Undo" HorizontalAlignment="Right" Tag="{Binding}" Click="Undo_Click" Style="{StaticResource UndoButtonStyle}"/>
                                 </Grid>
                             </DataTemplate>                        
                         </ListView.ItemTemplate>
                     </ListView>
                                 
-                    <Button Content="Apply Changes" Click="Apply_Changes" Width="85" HorizontalAlignment="Center" Margin="5"/>                        
+                    <Button Content="Apply Changes" Click="Apply_Changes" Style="{StaticResource ApplyButtonStyle}"/>                        
                 </StackPanel>
 
             </Border>
