@@ -2,18 +2,18 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Backgrounds: layer from darkest to lightest -->
-    <Color x:Key="Bg0">#000000</Color>   <!-- app chrome / outermost -->
-    <Color x:Key="Bg1">#252526</Color>   <!-- panels, sidebars -->
-    <Color x:Key="Bg2">#2D2D30</Color>   <!-- cards, toolbars -->
-    <Color x:Key="Bg3">#3E3E42</Color>   <!-- input fields, hover surfaces -->
+    <!-- Backgrounds -->
+    <Color x:Key="Bg0">#04160d</Color>  
+    <Color x:Key="Bg1">#252526</Color>   
+    <Color x:Key="Bg2">#2D2D30</Color>   
+    <Color x:Key="Bg3">#000000</Color>  
 
     <!-- Borders -->
     <Color x:Key="BorderSubtle">#3F3F46</Color>
     <Color x:Key="BorderStrong">#5A5A5D</Color>
 
     <!-- Text -->
-    <Color x:Key="TextPrimary">#39FF14</Color>
+    <Color x:Key="TextPrimary">#11ca69</Color>
     <Color x:Key="TextSecondary">#33a61e</Color>
     <Color x:Key="TextDisabled">#1c5c11</Color>
 

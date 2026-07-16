@@ -4,12 +4,12 @@
 
 <Style x:Key="BorderGridStyle" TargetType="Border">
     <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
-    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderThickness" Value="0,0,0,2" />
 </Style>
 
 <Style x:Key="SpliterStyle" TargetType="GridSplitter">
     <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
-    <Setter Property="Width" Value="1" />
+    <Setter Property="Width" Value="2" />
 </Style>
 
 <Style TargetType="Button" >    
@@ -55,7 +55,105 @@
     <Setter Property="HorizontalAlignment" Value="Center"/>
     <Setter Property="FontSize" Value="8"/>
     <Setter Property="Margin" Value="5"/> 
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="Button">
+                <Border x:Name="Bd">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource TextDisabledBrush}"/>
+                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                    </Trigger>                                      
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>   
+    </Setter>
 </Style>
+
+
+<Style x:Key="ComboBoxItemStyle" TargetType="ComboBoxItem">
+    <Setter Property="Background" Value="{StaticResource Bg1Brush}" />
+    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    <Setter Property="Padding" Value="8,4" />
+    <Style.Triggers>
+        <Trigger Property="IsHighlighted" Value="True">
+            <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
+        </Trigger>
+        <Trigger Property="IsSelected" Value="True">
+            <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
+        </Trigger>
+    </Style.Triggers>
+</Style>
+
+<Style x:Key="ComboBoxStyle" TargetType="ComboBox">  
+    <Setter Property="Width" Value="80" />
+    <Setter Property="VerticalAlignment" Value="Center" /> 
+    <Setter Property="Background" Value="{StaticResource Bg1Brush}"/>   
+    <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}"/>
+    <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemStyle}" />
+    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ComboBox">
+                <Grid>
+                    <ToggleButton x:Name="ToggleButton"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="1"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="20" />
+                                        </Grid.ColumnDefinitions>
+                                        <Path Grid.Column="1" Data="M0,0 L4,4 L8,0 Z"
+                                              Fill="{StaticResource TextPrimaryBrush}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                    </ToggleButton>
+
+                    <ContentPresenter x:Name="ContentSite"
+                                      IsHitTestVisible="False"
+                                      Content="{TemplateBinding SelectionBoxItem}"
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                      Margin="8,3,25,3"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left" />
+
+                    <Popup x:Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                        <Border x:Name="DropDownBorder"
+                                Background="{StaticResource Bg1Brush}"
+                                BorderBrush="{StaticResource Bg2Brush}"
+                                BorderThickness="1"
+                                MinWidth="{TemplateBinding ActualWidth}"
+                                MaxHeight="200">
+                            <ScrollViewer>
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+
 
 <Style x:Key="OgTextStyle" TargetType="TextBlock" >    
     <Setter Property="Foreground" Value="Red" />
@@ -77,7 +175,8 @@
     <Setter Property="Opacity" Value="0.95" />
     <Setter Property="Panel.ZIndex" Value="1" />   
     <Setter Property="HorizontalAlignment" Value="Right"/> 
-    <Setter Property="Margin" Value="20"/>     
+    <Setter Property="Margin" Value="20"/>    
+    <Setter Property="Background" Value="{StaticResource Bg1Brush}" />
 </Style>
 
 <Style TargetType="ListView">
