@@ -73,7 +73,7 @@ namespace Aris.Services
             foreach (var w in Words.Where(w => w.Is_changed))
                 ChangedWords.Add(w);
 
-            PendingLabel = $"{ChangedWords.Count} pending changes";
+            PendingLabel = $"[{ChangedWords.Count}]-Pending Changes";
             HasChanges = ChangedWords.Count > 0; 
                       
         }

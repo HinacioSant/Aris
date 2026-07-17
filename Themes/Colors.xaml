@@ -25,7 +25,13 @@
     <!-- Base Colors -->
     <Color x:Key="TealBase">#4EC9B0</Color> 
     <Color x:Key="YellowBase">#DCDCAA</Color>
-    <Color x:Key="RedBase">#F14C4C</Color>
+    <Color x:Key="RedBase">#e82525</Color>
     <Color x:Key="BlueBase">#569CD6</Color>
+
+    <!-- Yellow Colors -->
+    <Color x:Key="Yb0">#ffb92c</Color> 
+    <Color x:Key="Yb1">#f99b25</Color>
+    <Color x:Key="Yb2">#f89023</Color>
+    <Color x:Key="Yb3">#dc8421</Color>
 
 </ResourceDictionary>

@@ -10,11 +10,16 @@
     <SolidColorBrush x:Key="Bg2Brush" Color="{StaticResource Bg2}"/>
     <SolidColorBrush x:Key="Bg3Brush" Color="{StaticResource Bg3}"/>
 
+    <SolidColorBrush x:Key="Yb0Brush" Color="{StaticResource Yb0}"/> <!-- Yellow [Main Color] -->
+    <SolidColorBrush x:Key="Yb1Brush" Color="{StaticResource Yb1}"/> <!-- Variation as it goes -->
+    <SolidColorBrush x:Key="Yb2Brush" Color="{StaticResource Yb2}"/>
+    <SolidColorBrush x:Key="Yb3Brush" Color="{StaticResource Yb3}"/>
+
     <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtle}"/> <!-- Grey -->
     <SolidColorBrush x:Key="BorderStrongBrush" Color="{StaticResource BorderStrong}"/>
 
-    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}"/> <!-- Green -->
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource Yb0}"/> <!-- [Main Color] -->
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/> <!-- Variation as it goes -->
     <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource TextDisabled}"/>
 
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}"/> <!-- Hover Green -->

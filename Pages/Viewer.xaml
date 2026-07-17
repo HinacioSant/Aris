@@ -72,7 +72,7 @@
 
             <!-- Column 1 -->
 
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Style="{StaticResource SpliterStyle}"/>             
+            <GridSplitter Grid.Column="1" Style="{StaticResource SpliterStyle}"/>             
                 <!-- Canvas on top -->
             
             <!-- Column 2 Word Canvas -->
@@ -83,11 +83,10 @@
 
             <!-- Column 2 Changes Panel -->
 
-            <Border Grid.Column="2" x:Name="ChangesBorder" HorizontalAlignment="Right" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" 
-                    Panel.ZIndex="1" >
+            <Border Grid.Column="2" x:Name="ChangesBorder" Style="{StaticResource BorderChangeListStyle}" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}">
 
                 <StackPanel Grid.Column="2" x:Name="ChangesPanel" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ChangesPanelStyle}">
-                <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center"/>                
+                <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center" Foreground="{StaticResource Yb0Brush}"/>                
 
                     <ListView x:Name="ChangesList" ItemsSource="{Binding ChangedWords}" ItemContainerStyle="{StaticResource ChangesListItemStyle}">
                         <ListView.ItemTemplate>
@@ -99,20 +98,11 @@
                                     </Grid.ColumnDefinitions>
                                     
                                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="[" Style="{StaticResource IbTextStyle}"/>
                                     <TextBlock Text="{Binding Og_Text}" Style="{StaticResource OgTextStyle}"/>
-                                    <TextBlock Text="→" Margin="0,0,8,0"/>
-                                    <TextBlock Text="{Binding New_Text}" Style="{StaticResource NewTextStyle}"/>
-
-                                    <TextBlock Style="{StaticResource CordTextStyle}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="(X:{0:F0}-Y:{1:F0})">
-                                                <Binding Path="Position.X"/>
-                                                <Binding Path="Position.Y"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock> 
-                                    <TextBlock Text=" | " Margin="0,0,8,0"/>
-
+                                    <TextBlock Text="→" Style="{StaticResource IbTextStyle}"/>
+                                    <TextBlock Text="{Binding New_Text}" Style="{StaticResource NewTextStyle}"/>    
+                                    <TextBlock Text="]" Style="{StaticResource IbTextStyle}"/>
                                 </StackPanel>
 
                                 <Button Grid.Column="1" Content="Undo" HorizontalAlignment="Right" Tag="{Binding}" Click="Undo_Click" Style="{StaticResource UndoButtonStyle}"/>

@@ -4,12 +4,13 @@
 
 <Style x:Key="BorderGridStyle" TargetType="Border">
     <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
-    <Setter Property="BorderThickness" Value="0,0,0,2" />
+    <Setter Property="BorderThickness" Value="0,0,0,1" />
 </Style>
 
 <Style x:Key="SpliterStyle" TargetType="GridSplitter">
     <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
-    <Setter Property="Width" Value="2" />
+    <Setter Property="Width" Value="1" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
 </Style>
 
 <Style TargetType="Button" >    
@@ -45,8 +46,10 @@
     <Setter Property="Width" Value="120" />
     <Setter Property="Height" Value="20" />
     <Setter Property="HorizontalAlignment" Value="Center"/>
-    <Setter Property="FontSize" Value="8"/>
+    <Setter Property="FontSize" Value="10"/>
     <Setter Property="Margin" Value="5"/> 
+    <Setter Property="FontWeight" Value="Normal"/>
+    <Setter Property="Foreground" Value="{StaticResource Yb0Brush}" />
 </Style>
 
 
@@ -55,6 +58,7 @@
     <Setter Property="HorizontalAlignment" Value="Center"/>
     <Setter Property="FontSize" Value="8"/>
     <Setter Property="Margin" Value="5"/> 
+    <Setter Property="Foreground" Value="{StaticResource Yb0Brush}" /> 
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="Button">
@@ -63,8 +67,8 @@
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource TextDisabledBrush}"/>
-                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource AccentBrush}"/>
+                        <Setter Property="Foreground" Value="{StaticResource TextDisabledBrush}"/>
                     </Trigger>                                      
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -89,6 +93,7 @@
 
 <Style x:Key="ComboBoxStyle" TargetType="ComboBox">  
     <Setter Property="Width" Value="80" />
+    <Setter Property="Height" Value="22" />
     <Setter Property="VerticalAlignment" Value="Center" /> 
     <Setter Property="Background" Value="{StaticResource Bg1Brush}"/>   
     <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}"/>
@@ -154,25 +159,34 @@
     </Setter>
 </Style>
 
+<Style x:Key="BorderChangeListStyle" TargetType="Border">
+    <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
+    <Setter Property="Background" Value="{StaticResource Bg1Brush}" />
+    <Setter Property="BorderThickness" Value="1,0,0,1" />
+    <Setter Property="HorizontalAlignment" Value="Right" />
+    <Setter Property="Panel.ZIndex" Value="1" />
+</Style>
 
 <Style x:Key="OgTextStyle" TargetType="TextBlock" >    
-    <Setter Property="Foreground" Value="Red" />
-    <Setter Property="TextDecorations" Value="Strikethrough" />   
-    <Setter Property="Margin" Value="0,0,8,0"/> 
+    <Setter Property="Foreground" Value="{StaticResource RedBrush}" />
+    <Setter Property="TextDecorations" Value="Strikethrough" /> 
+    <Setter Property="Margin" Value="0,0,2,0"/> 
+</Style>
+
+<Style x:Key="IbTextStyle" TargetType="TextBlock" >    
+    <Setter Property="Foreground" Value="{StaticResource Yb0Brush}" />     
+    <Setter Property="Margin" Value="2,0,2,0"/> 
 </Style>
 
 <Style x:Key="NewTextStyle" TargetType="TextBlock" >    
-    <Setter Property="Foreground" Value="Green" />    
-</Style>
-
-<Style x:Key="CordTextStyle" TargetType="TextBlock" >    
-    <Setter Property="Foreground" Value="Gray" />
-    <Setter Property="Margin" Value="0,0,0,0"/> 
+    <Setter Property="Foreground" Value="{StaticResource BlueBrush}" />    
+    <Setter Property="Margin" Value="2,0,0,0"/> 
 </Style>
 
 <Style x:Key="ChangesPanelStyle" TargetType="StackPanel" >  
     <Setter Property="TextElement.FontSize" Value="8" />
-    <Setter Property="Opacity" Value="0.95" />
+    <Setter Property="MaxWidth" Value="310" />
+    <Setter Property="Opacity" Value="0.75" />
     <Setter Property="Panel.ZIndex" Value="1" />   
     <Setter Property="HorizontalAlignment" Value="Right"/> 
     <Setter Property="Margin" Value="20"/>    
@@ -203,7 +217,7 @@
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource AccentBrush}" />
+                        <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource TextDisabledBrush}" />
                     </Trigger>
                     <Trigger Property="IsSelected" Value="True">
                         <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource AccentBrush}" />
