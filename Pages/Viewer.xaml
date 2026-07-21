@@ -60,11 +60,10 @@
 
         <Grid Grid.Row = "2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="col_0" Width="auto"/>  <!-- pdf viewer -->
+                <ColumnDefinition x:Name="col_0" Width="Auto"/>  <!-- pdf viewer -->
                 <ColumnDefinition Width="2"/>   <!-- splitter -->
-                <ColumnDefinition x:Name="col_2" Width="*"/>   <!-- WordCanvas panel -->
-            </Grid.ColumnDefinitions>  
-
+                <ColumnDefinition x:Name="col_2"/>   <!-- WordCanvas panel -->
+            </Grid.ColumnDefinitions>              
             <!-- Column 0 -->
         
             <Grid Grid.Column="0" x:Name="ViewerGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" ClipToBounds="True"/>
@@ -84,36 +83,39 @@
             <!-- Column 2 Changes Panel -->
 
             <Border Grid.Column="2" x:Name="ChangesBorder" Style="{StaticResource BorderChangeListStyle}" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}">
+                <Grid>
+                    <StackPanel Grid.Column="2" x:Name="ChangesPanel" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ChangesPanelStyle}">
+                    <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center" Foreground="{StaticResource Yb0Brush}"/>                
 
-                <StackPanel Grid.Column="2" x:Name="ChangesPanel" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ChangesPanelStyle}">
-                <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center" Foreground="{StaticResource Yb0Brush}"/>                
-
-                    <ListView x:Name="ChangesList" ItemsSource="{Binding ChangedWords}" ItemContainerStyle="{StaticResource ChangesListItemStyle}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>   <!-- change info -->
-                                        <ColumnDefinition Width="Auto"/>  <!-- undo button -->
-                                    </Grid.ColumnDefinitions>
+                        <ListView x:Name="ChangesList" ItemsSource="{Binding ChangedWords}" ItemContainerStyle="{StaticResource ChangesListItemStyle}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20"/>   <!-- change info -->
+                                            <ColumnDefinition Width="*"/>   <!-- change info -->
+                                            <ColumnDefinition Width="Auto"/>  <!-- undo button -->
+                                        </Grid.ColumnDefinitions>
                                     
-                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="[" Style="{StaticResource IbTextStyle}"/>
-                                    <TextBlock Text="{Binding Og_Text}" Style="{StaticResource OgTextStyle}"/>
-                                    <TextBlock Text="→" Style="{StaticResource IbTextStyle}"/>
-                                    <TextBlock Text="{Binding New_Text}" Style="{StaticResource NewTextStyle}"/>    
-                                    <TextBlock Text="]" Style="{StaticResource IbTextStyle}"/>
-                                </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="[" Style="{StaticResource IbTextStyle}"/>
+                                        <TextBlock Text="{Binding Og_Text}" Style="{StaticResource OgTextStyle}"/>
+                                        <TextBlock Text="→" Style="{StaticResource IbTextStyle}"/>
+                                        <TextBlock Text="{Binding New_Text}" Style="{StaticResource NewTextStyle}"/>    
+                                        <TextBlock Text="]" Style="{StaticResource IbTextStyle}"/>
+                                    </StackPanel>
 
-                                <Button Grid.Column="1" Content="Undo" HorizontalAlignment="Right" Tag="{Binding}" Click="Undo_Click" Style="{StaticResource UndoButtonStyle}"/>
-                                </Grid>
-                            </DataTemplate>                        
-                        </ListView.ItemTemplate>
-                    </ListView>
-                                
-                    <Button Content="Apply Changes" Click="Apply_Changes" Style="{StaticResource ApplyButtonStyle}"/>                        
-                </StackPanel>
+                                    <Button Grid.Column="2" Content="Undo" Tag="{Binding}" Click="Undo_Click" Style="{StaticResource UndoButtonStyle}"/>
+                                    </Grid>
+                                </DataTemplate>                        
+                            </ListView.ItemTemplate>
+                        </ListView>
+                                    
+                        <Button Content="Apply Changes" Click="Apply_Changes" Style="{StaticResource ApplyButtonStyle}"/>     
+                    </StackPanel>
+                    <ToggleButton x:Name="CollapseToggle" Content="&gt;" Style="{StaticResource PanelCollapseToggleStyle}" Checked="CollapseToggle_Checked" Unchecked="CollapseToggle_Unchecked" />                   
 
+                </Grid>
             </Border>
         </Grid>
         

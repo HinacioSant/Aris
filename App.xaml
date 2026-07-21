@@ -10,7 +10,7 @@
             <ResourceDictionary Source="Themes/Brushes.xaml"/>
             <ResourceDictionary Source="Themes/Fonts.xaml"/>            
             <ResourceDictionary Source="Themes/Controls/Window.xaml"/>
-            <ResourceDictionary Source="Themes/Controls/TextBox.xaml"/>
+            <ResourceDictionary Source="Themes/Controls/TextBox.xaml"/>            
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 </Application.Resources>

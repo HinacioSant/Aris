@@ -68,7 +68,7 @@ namespace Aris.Pages
             var page = pigDoc.GetPage(_page_number);
             var total_pages = pigDoc.NumberOfPages;
             _viewModel.PageSelection(total_pages, _page_number); 
-            col_0.Width = new GridLength(page.Width);               
+            col_0.Width = new GridLength(page.Width);              
             WordCanvas.Height = page.Height;
             
         }
@@ -133,6 +133,22 @@ namespace Aris.Pages
             }
         }
 
+        private void CollapseToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangesList.Visibility = Visibility.Collapsed;
+            ChangesBorder.Width = 1; // just enough to show the toggle
+            CollapseToggle.Margin = new Sw.Thickness(-40,0,0,0);
+            CollapseToggle.Content = "<";
+        }
+
+        private void CollapseToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangesList.Visibility = Visibility.Visible;
+            ChangesBorder.Width = double.NaN; // reset to auto/star sizing
+            CollapseToggle.Margin = new Sw.Thickness(-25,0,0,0);
+            CollapseToggle.Content = ">";
+        }
+
 
         private async void Apply_Changes(object sender, RoutedEventArgs e)
         {
@@ -161,8 +177,7 @@ namespace Aris.Pages
                 Sw.MessageBox.Show(result.Error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
-        }      
+        }    
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
