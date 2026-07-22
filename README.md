@@ -1,3 +1,8 @@
+# **Aris**     _~[+]~_ 
+
+Aris is a Pdf editor application. It uses PdfPig, PdfiumViewer and Itext7 for extraction, displaying and editing of Pdfs.
+
+
 # Re-Editing Files -
 
 Attempting to Edit a already edited file can lead to errors MAINLY in Re-editing a word. 
