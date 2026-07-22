@@ -20,10 +20,12 @@
     <Setter Property="Margin" Value="5"/>
     <Setter Property="FontSize" Value="12"/>
     <Setter Property="FontWeight" Value="Bold"/> 
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="Button">
-                <Border x:Name="Bd">
+                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <ControlTemplate.Triggers>
@@ -43,8 +45,8 @@
 
 
 <Style x:Key="ApplyButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">    
-    <Setter Property="Width" Value="120" />
-    <Setter Property="Height" Value="20" />
+    <Setter Property="Width" Value="140" />
+    <Setter Property="Height" Value="40" />
     <Setter Property="HorizontalAlignment" Value="Center"/>
     <Setter Property="FontSize" Value="10"/>
     <Setter Property="Margin" Value="5"/> 
@@ -62,7 +64,7 @@
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="Button">
-                <Border x:Name="Bd">
+                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <ControlTemplate.Triggers>
@@ -86,13 +88,13 @@
     <Setter Property="Height" Value="25" />    
     <Setter Property="FontSize" Value="12"/>
     <Setter Property="Panel.ZIndex" Value="10"/>
-    <Setter Property="Margin" Value="-25,0,0,0"/> 
+    <Setter Property="Margin" Value="-28,0,0,0"/> 
     <Setter Property="FontWeight" Value="Bold"/>
-    <Setter Property="Width" Value="20" />     
+    <Setter Property="Width" Value="25" />    
     <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="ToggleButton">
-                <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <ControlTemplate.Triggers>
@@ -215,7 +217,7 @@
 
 <Style x:Key="ChangesPanelStyle" TargetType="StackPanel" >  
     <Setter Property="TextElement.FontSize" Value="8" />
-    <Setter Property="MaxWidth" Value="310" />
+    <Setter Property="Width" Value="310" />
     <Setter Property="Opacity" Value="0.75" />
     <Setter Property="Panel.ZIndex" Value="1" />   
     <Setter Property="HorizontalAlignment" Value="Right"/> 
@@ -228,6 +230,7 @@
     <Setter Property="BorderBrush" Value="{StaticResource Bg2Brush}" />
     <Setter Property="Margin" Value="10" />    
     <Setter Property="VerticalAlignment" Value="Stretch" /> 
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" /> 
 </Style>
 
     
@@ -251,7 +254,7 @@
                         <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource TextDisabledBrush}" />
                     </Trigger>
                     <Trigger Property="IsSelected" Value="True">
-                        <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource AccentBrush}" />
+                        <Setter TargetName="RowBorder" Property="Background" Value="{StaticResource TextDisabledBrush}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>

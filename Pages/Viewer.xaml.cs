@@ -137,7 +137,7 @@ namespace Aris.Pages
         {
             ChangesList.Visibility = Visibility.Collapsed;
             ChangesBorder.Width = 1; // just enough to show the toggle
-            CollapseToggle.Margin = new Sw.Thickness(-40,0,0,0);
+            CollapseToggle.Margin = new Sw.Thickness(-43,0,0,0);
             CollapseToggle.Content = "<";
         }
 
@@ -145,7 +145,7 @@ namespace Aris.Pages
         {
             ChangesList.Visibility = Visibility.Visible;
             ChangesBorder.Width = double.NaN; // reset to auto/star sizing
-            CollapseToggle.Margin = new Sw.Thickness(-25,0,0,0);
+            CollapseToggle.Margin = new Sw.Thickness(-28,0,0,0);
             CollapseToggle.Content = ">";
         }
 
