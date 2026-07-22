@@ -1,4 +1,4 @@
-# **Aris**     _~[+]~_ 
+# **Aris**     _\~\[+]\~\_ 
 
 Aris is a Pdf editor application. It uses PdfPig, PdfiumViewer and Itext7 for extraction, displaying and editing of Pdfs.
 
