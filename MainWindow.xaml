@@ -6,8 +6,10 @@
         xmlns:wf="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:local="clr-namespace:Aris"
         mc:Ignorable="d"
-        Title="Aris"
-        WindowStartupLocation="CenterScreen" Style="{StaticResource WindowStyle}">
+        Title="Aris ~[+]~"
+        WindowStartupLocation="CenterScreen"
+        Icon="\Assets\Aris.ico"
+        Style="{StaticResource WindowStyle}">
         
     <Grid>
         <ContentControl x:Name="Page_content"/>       

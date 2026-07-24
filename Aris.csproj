@@ -19,6 +19,7 @@
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Resource Include="Fonts\**\*.ttf" />
+     <Resource Include="Assets\Aris.ico" />
   </ItemGroup>
   
 </Project>

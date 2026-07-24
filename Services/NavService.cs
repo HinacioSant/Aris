@@ -24,8 +24,7 @@ namespace Aris.Services
 
         public static void SetContent(ContentControl host, object newContent)
         {
-            var window = Window.GetWindow(host);
-            var test = host.Content is IPageSizing;
+            var window = Window.GetWindow(host);            
 
             if (window != null && host.Content is IPageSizing && host.Content != newContent)
             {
