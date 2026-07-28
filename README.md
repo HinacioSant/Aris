@@ -1,15 +1,15 @@
 # **Aris**     _~\[+]\~_ 
 
-Aris is a Pdf editor application. It uses PdfPig, PdfiumViewer and Itext7 for extraction, displaying and editing of Pdfs.
+Aris is a PDF editor and word-processor replacement tool. It uses PdfPig, PdfiumViewer.Updated and Itext7 for extraction, displaying and editing of Pdfs.
 
 
-# Re-Editing Files -
+# Re-Editing Files 
 
 Attempting to Edit a already edited file can lead to errors MAINLY in Re-editing a word. 
 
 _-Intended overall fix for the future-_
 
-# Fonts -
+# Fonts 
 
 Aris use the **Standard 14** as base fonts. To use fonts outside of that you should add custom fonts.
 
@@ -21,3 +21,7 @@ If any exception is raised durring font creation Aris will user the default "Hel
 
 ### <ins>Standard 14 Fonts:<ins>
 <sup>[ "Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique", "Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic", "Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique", "Symbol", "ZapfDingbats"]<sup>
+
+# License
+
+AGPL-3.0-or-later
