@@ -2,9 +2,7 @@
 
 Aris is a PDF editor and word-processor replacement tool. It uses PdfPig, PdfiumViewer.Updated and Itext7 for extraction, displaying and editing of Pdfs.
 
-# Images
-
-<img width="712" height="487" alt="Aris 1" src="https://github.com/user-attachments/assets/32f22aab-5339-4e24-a0b8-80a79c8b5bf4" />
+<img width="1600" height="860" alt="Aris GIF" src="https://github.com/user-attachments/assets/8405f123-79ec-4cc3-9a47-8e408f8d30cb" />
 
 # Re-Editing Files 
 

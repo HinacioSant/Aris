@@ -99,7 +99,7 @@ namespace Aris.Pages
                     FontWeight = fontWeight,
                     FontStyle = fontStyle,  
                     Height = pos.Height + 10,
-                    FontSize = fontSize - 1,
+                    FontSize = fontSize,
                     BorderThickness = new Thickness(0),                                        
                     Padding = new Thickness(0),                                   
                     IsReadOnly = true,
