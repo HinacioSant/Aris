@@ -2,6 +2,9 @@
 
 Aris is a PDF editor and word-processor replacement tool. It uses PdfPig, PdfiumViewer.Updated and Itext7 for extraction, displaying and editing of Pdfs.
 
+# Images
+
+<img width="712" height="487" alt="Aris 1" src="https://github.com/user-attachments/assets/32f22aab-5339-4e24-a0b8-80a79c8b5bf4" />
 
 # Re-Editing Files 
 
@@ -22,6 +25,17 @@ If any exception is raised durring font creation Aris will user the default "Hel
 ### <ins>Standard 14 Fonts:<ins>
 <sup>[ "Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique", "Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic", "Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique", "Symbol", "ZapfDingbats"]<sup>
 
+# Status 
+
+This is version 1.0 of Aris. 
+
+It consist of all my Initial intended capabilities fulfilling my current personal needs. For future intended features check [[Future]](https://github.com/HinacioSant/Aris#future)
+
+# Future
+
+Remove old content stream operatores on every edit using a port of [PdfCanvasProcessor](https://github.com/mkl-public/testarea-itext7/blob/master/src/main/java/mkl/testarea/itext7/content/PdfCanvasEditor.java) for C#.
+
+
 # License
 
-AGPL-3.0-or-later
+AGPL-3.0-or-later. See -- [LICENSE](https://github.com/HinacioSant/Aris/blob/main/LICENSE)

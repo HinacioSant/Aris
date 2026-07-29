@@ -129,7 +129,7 @@ namespace Aris.Services
                         var height = pos.Height;
                         var font_size = pos.Font_size;                        
 
-                        canvas.SetFillColor(ColorConstants.WHITE).Rectangle(x, y - 3, width, height + 4).Fill();
+                        canvas.SetFillColor(ColorConstants.WHITE).Rectangle(x, y - 6, width, height + 7).Fill();
 
                         canvas.SetFillColor(ColorConstants.BLACK).BeginText().SetFontAndSize(font, font_size).MoveText(x, y).ShowText(w.New_Text).EndText();
                     }

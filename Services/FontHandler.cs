@@ -64,8 +64,8 @@ namespace Aris.Services
                 if (path == null) return DefaultFont;
 
                 Uri fileUri = new Uri(path, UriKind.Absolute);
-                var families = Sys_media.Fonts.GetFontFamilies(fileUri);
-                Sys_media.FontFamily fontFamily = families.FirstOrDefault();
+                var families = Sys_media.Fonts.GetFontFamilies(fileUri);               
+                Sys_media.FontFamily fontFamily = families.FirstOrDefault(f => f.FamilyNames.Values.Any(name => NormalizeFont(name) == NormalizeFont(font)));
 
                 return fontFamily;
             }
@@ -73,10 +73,23 @@ namespace Aris.Services
             {  
                 Debug.WriteLine($"FAILED: {ex.Message} isBuiltIn:{isBuiltIn} FontName:{font}");              
                 return DefaultFont;              
-            }
-
-          
+            }         
             
+        }
+
+        public static string NormalizeFont(string font)
+        {
+            if (string.IsNullOrEmpty(font)) return "";
+            
+            string baseFont = font.Split('-')[0]; // Drop after - suffixes          
+
+
+            baseFont = Regex.Replace(baseFont, @"\d+pt", "", RegexOptions.IgnoreCase); // Drop optical sizing like "24pt"           
+
+
+            baseFont = Regex.Replace(baseFont, @"[^a-zA-Z0-9]", ""); // Strip remaining non-alphanumeric
+
+            return baseFont.ToLowerInvariant();           
         }
 
         public static PdfFont LoadFont(string rawFont) // Font builder for back end editing 

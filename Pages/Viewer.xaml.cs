@@ -99,9 +99,9 @@ namespace Aris.Pages
                     FontWeight = fontWeight,
                     FontStyle = fontStyle,  
                     Height = pos.Height + 10,
-                    FontSize = fontSize,
+                    FontSize = fontSize - 1,
                     BorderThickness = new Thickness(0),                                        
-                    Padding = new Thickness(0),                   
+                    Padding = new Thickness(0),                                   
                     IsReadOnly = true,
                     Cursor = Sw.Input.Cursors.Hand,
                     DataContext = word
