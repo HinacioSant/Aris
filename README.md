@@ -42,7 +42,7 @@ Git clone https://github.com/HinacioSant/Aris.git
 ```
 cd Aris
 
-dotnet Run
+dotnet run
 ```
 
 
