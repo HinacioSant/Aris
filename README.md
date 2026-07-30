@@ -13,6 +13,7 @@ This is version 1.0 of Aris.
 
 It consist of all my Initial intended capabilities fulfilling my current personal needs. For future intended features check [[Future]](https://github.com/HinacioSant/Aris#future)
 
+Files are save in their original folder with the prefix [Edited]
 
 # Re-Editing Files 
 
@@ -39,7 +40,9 @@ Git clone https://github.com/HinacioSant/Aris.git
 **Run -**
 
 ```
-Dotnet Run
+cd Aris
+
+dotnet Run
 ```
 
 
