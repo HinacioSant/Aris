@@ -1,0 +1,54 @@
+name: Bug Report
+description: Report something broken or not working as expected in Aris
+title: "[Bug]:"
+labels: ["bug"]
+
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug
+      placeholder: Tell us what went wrong...
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this?
+      placeholder: |
+        1. Open a PDF
+        2. Click...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What did you expected to happen?     
+    validations:
+      required: false
+  
+  - type: dropdown
+    id: os-version
+    attributes:
+      label: Windows Version
+      options:
+        - Windows 10
+        - Windows 11
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: aris-version
+    attributes:
+      label: Aris Version
+      description: Which version/build of Aris are you using?
+      placeholder: e.g. v1.0
+    validations:
+      required: true
