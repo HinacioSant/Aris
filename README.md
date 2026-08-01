@@ -7,7 +7,7 @@ Aris is a PDF editor and word-processor replacement tool. It uses PdfPig, Pdfium
 
 # Status 
 
-This is version 1.0 of Aris. 
+This is version 0.1.0 of Aris. 
 
 [[Install]](https://github.com/HinacioSant/Aris#Install)
 
