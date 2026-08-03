@@ -22,4 +22,15 @@
      <Resource Include="Assets\Aris.ico" />
   </ItemGroup>
   
+  <Target Name="MoveNativeDll" AfterTargets="Publish">
+    <ItemGroup>
+      <PdfiumDll Include="$(PublishDir)x64\pdfium.dll"/>
+    </ItemGroup>
+    <Move SourceFiles="@(PdfiumDll)" DestinationFolder="$(PublishDir)" />
+  </Target>
+
+  <PropertyGroup>
+    <ApplicationIcon>Assets\Aris.ico</ApplicationIcon>
+  </PropertyGroup>
+  
 </Project>
