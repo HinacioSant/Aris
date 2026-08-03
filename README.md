@@ -31,6 +31,16 @@ _-Intended overall fix for the future-_
 
 See [[Prerequisites]](https://github.com/HinacioSant/Aris#Prerequisites)
 
+## For Users
+
+
+Download the latest version in [Realeases](https://github.com/HinacioSant/Aris/releases)
+
+```
+Extract then run Aris.exe
+```
+## For Developers
+
 **Clone -** 
 
 ```
