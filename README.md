@@ -34,7 +34,7 @@ See [[Prerequisites]](https://github.com/HinacioSant/Aris#Prerequisites)
 ## For Users
 
 
-Download the latest version in [Realeases](https://github.com/HinacioSant/Aris/releases)
+Download the latest version in [Releases](https://github.com/HinacioSant/Aris/releases)
 
 ```
 Extract then run Aris.exe
