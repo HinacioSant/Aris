@@ -1,8 +1,8 @@
-#       Aris ~[+]~
+#       Aris  _~\[+]\~_ 
 
 Aris is a WPF MVVM PDF editor that uses OCR-based text replacement.
 
-In here I'll explain Project [Structure](https://github.com/HinacioSant/Architecture.md#Structure), file [Responsibilities](https://github.com/HinacioSant/Architecture.md#Responsibilities), important [Classes](https://github.com/HinacioSant/Architecture.md#Classes) and [Data](https://github.com/HinacioSant/Architecture.md#Data) flow.
+In here I'll explain Project [Structure](https://github.com/HinacioSant/Architecture.md#structure), file [Responsibilities](https://github.com/HinacioSant/Architecture.md#responsibilities), important [Classes](https://github.com/HinacioSant/Architecture.md#classes) and [Data](https://github.com/HinacioSant/Architecture.md#data) flow.
 
 # Structure
 
