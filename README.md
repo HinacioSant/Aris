@@ -41,6 +41,8 @@ Extract then run Aris.exe
 ```
 ## For Developers
 
+*Check [Architecture.md](https://github.com/HinacioSant/Aris/blob/main/Architecture.md)*
+
 **Clone -** 
 
 ```
