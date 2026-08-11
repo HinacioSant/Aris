@@ -83,11 +83,16 @@
             <!-- Column 2 Changes Panel -->
 
             <Border Grid.Column="2" x:Name="ChangesBorder" Style="{StaticResource BorderChangeListStyle}" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}">
-                <Grid>
-                    <StackPanel Grid.Column="2" x:Name="ChangesPanel" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ChangesPanelStyle}">
-                    <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center" Foreground="{StaticResource Yb0Brush}"/>                
+               <Grid> 
+                <Grid Grid.Column="2" x:Name="ChangesPanel" Visibility="{Binding HasChanges, Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ChangesPanelStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>      <!-- list takes remaining space -->
+                        <RowDefinition Height="Auto"/>   <!-- button stays fixed size -->
+                    </Grid.RowDefinitions>
+                   
+                    <TextBlock Text="{Binding PendingLabel}" HorizontalAlignment="Center" Foreground="{StaticResource Yb0Brush}"/>           
 
-                        <ListView x:Name="ChangesList" ItemsSource="{Binding ChangedWords}" ItemContainerStyle="{StaticResource ChangesListItemStyle}">
+                        <ListView Grid.Row="0" x:Name="ChangesList" ItemsSource="{Binding ChangedWords}" ItemContainerStyle="{StaticResource ChangesListItemStyle}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -109,13 +114,14 @@
                                     </Grid>
                                 </DataTemplate>                        
                             </ListView.ItemTemplate>
-                        </ListView>
-                                    
-                        <Button Content="Apply Changes" Click="Apply_Changes" Style="{StaticResource ApplyButtonStyle}"/>     
-                    </StackPanel>
+                        </ListView>                                    
+                        <Button Grid.Row="1" Content="Apply Changes" Click="Apply_Changes" Style="{StaticResource ApplyButtonStyle}"/>     
+                    </Grid>
+                    
                     <ToggleButton x:Name="CollapseToggle" Content="&gt;" Style="{StaticResource PanelCollapseToggleStyle}" Checked="CollapseToggle_Checked" Unchecked="CollapseToggle_Unchecked" />                   
+                    </Grid>
 
-                </Grid>
+
             </Border>
         </Grid>
         
