@@ -4,3 +4,6 @@ obj/
 .vs/    
 *.pdb    
 .fake
+**/corpus/*
+!**/corpus/.gitkeep
+**/BenchmarkDotNet.Artifacts/

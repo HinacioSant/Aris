@@ -29,6 +29,18 @@
     <Move SourceFiles="@(PdfiumDll)" DestinationFolder="$(PublishDir)" />
   </Target>
 
+  <ItemGroup>
+    <Compile Remove="Aris.Benchmarks\**" />
+    <Compile Remove="Aris.Tests\**" />
+    <Compile Remove="Aris.Scripts\**" />
+    <EmbeddedResource Remove="Aris.Benchmarks\**" />
+    <EmbeddedResource Remove="Aris.Tests\**" />
+    <EmbeddedResource Remove="Aris.Scripts\**" />
+    <None Remove="Aris.Benchmarks\**" />
+    <None Remove="Aris.Tests\**" />
+    <None Remove="Aris.Scripts\**" />
+  </ItemGroup>
+
   <PropertyGroup>
     <ApplicationIcon>Assets\Aris.ico</ApplicationIcon>
   </PropertyGroup>
